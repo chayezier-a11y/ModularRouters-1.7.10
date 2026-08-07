@@ -174,7 +174,7 @@ Commit message: **feat: add router RF storage**.
 - Create: **src/main/java/me/desht/modularrouters/logic/energy/EnergyTransfer.java**
 - Create: **src/test/java/me/desht/modularrouters/logic/energy/EnergyTransferTest.java**
 
-- [ ] **Step 1: Write failing transfer tests using small fake RF endpoints**
+- [x] **Step 1: Write failing transfer tests using small fake RF endpoints**
 
     @Test public void commitsOnlyWhatReceiverAccepts() {
         FakeProvider source = new FakeProvider(500);
@@ -193,11 +193,11 @@ Commit message: **feat: add router RF storage**.
         assertEquals(500, source.energy);
     }
 
-- [ ] **Step 2: Run and confirm RED**
+- [x] **Step 2: Run and confirm RED**
 
 Expected: compilation fails because EnergyTransfer.move is absent.
 
-- [ ] **Step 3: Implement simulation-first transfer**
+- [x] **Step 3: Implement simulation-first transfer**
 
     int available = source.extractEnergy(sourceSide, limit, true);
     int accepted = target.receiveEnergy(targetSide, available, true);
@@ -206,11 +206,11 @@ Expected: compilation fails because EnergyTransfer.move is absent.
 
 Provide overloads for IEnergyContainerItem to router and router to item. Reject null endpoints, UNKNOWN directions, non-positive limits and disconnected sides. If a receiver commits less than its simulation result, return the committed amount and restore any recoverable difference to the source.
 
-- [ ] **Step 4: Verify focused and full tests**
+- [x] **Step 4: Verify focused and full tests**
 
 Expected: partial acceptance, simulation and rejection tests pass without RF loss.
 
-- [ ] **Step 5: Update HANDOFF locally, commit, and push**
+- [x] **Step 5: Update HANDOFF locally, commit, and push**
 
 Commit message: **feat: add transactional RF transfers**.
 
