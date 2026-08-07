@@ -30,7 +30,7 @@
 - Modify: **src/main/java/me/desht/modularrouters/logic/ModuleTarget.java**
 - Create: **src/test/java/me/desht/modularrouters/logic/ModuleTargetTest.java**
 
-- [ ] **Step 1: Write failing value and NBT tests**
+- [x] **Step 1: Write failing value and NBT tests**
 
     @Test public void roundTripsDimensionPositionFaceAndName() {
         ModuleTarget source = new ModuleTarget(7, 10, 64, -3, ForgeDirection.NORTH, "tile.chest.name");
@@ -45,13 +45,13 @@
         assertNotEquals(target, new ModuleTarget(0, 1, 2, 3, ForgeDirection.DOWN, "a"));
     }
 
-- [ ] **Step 2: Run the focused test and confirm RED**
+- [x] **Step 2: Run the focused test and confirm RED**
 
     gradle -I gradle/fix-minecraft-download.gradle test --tests me.desht.modularrouters.logic.ModuleTargetTest
 
 Expected: compilation fails because the dimension-aware constructor, NBT methods and block-name accessor do not exist.
 
-- [ ] **Step 3: Implement the immutable value object**
+- [x] **Step 3: Implement the immutable value object**
 
 Add dimension and blockName fields, retain the existing five-argument constructor as dimension 0 compatibility, and add these APIs:
 
@@ -64,11 +64,11 @@ Add dimension and blockName fields, retain the existing five-argument constructo
 
 Serialize keys Dim, X, Y, Z, Face and Name. Decode Face through a bounds-checked helper that falls back to ForgeDirection.UNKNOWN. Implement equals and hashCode from dimension, coordinates and facing only so a translated block name does not duplicate a target.
 
-- [ ] **Step 4: Run focused and full tests**
+- [x] **Step 4: Run focused and full tests**
 
 Expected: ModuleTargetTest passes, followed by all existing tests passing.
 
-- [ ] **Step 5: Update HANDOFF locally, commit tracked files, and push**
+- [x] **Step 5: Update HANDOFF locally, commit tracked files, and push**
 
 Commit message: **feat: add dimension-aware module targets**.
 
