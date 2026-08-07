@@ -133,7 +133,7 @@ Commit message: **feat: support energy distributor multi-target binding**.
 - Create: **src/main/java/me/desht/modularrouters/logic/energy/RouterEnergyStorage.java**
 - Create: **src/test/java/me/desht/modularrouters/logic/energy/RouterEnergyStorageTest.java**
 
-- [ ] **Step 1: Write failing RF accounting tests**
+- [x] **Step 1: Write failing RF accounting tests**
 
     @Test public void preservesEnergyAboveReducedCapacity() {
         RouterEnergyStorage storage = new RouterEnergyStorage(1000, 200);
@@ -152,19 +152,19 @@ Commit message: **feat: support energy distributor multi-target binding**.
         assertEquals(100, storage.extractEnergy(500, false));
     }
 
-- [ ] **Step 2: Run and confirm RED**
+- [x] **Step 2: Run and confirm RED**
 
 Expected: compilation fails because RouterEnergyStorage is absent.
 
-- [ ] **Step 3: Implement storage and persistence**
+- [x] **Step 3: Implement storage and persistence**
 
-Implement IEnergyStorage with non-negative int arithmetic and fields energy, excess, capacity and maxTransfer. configure first combines visible plus excess, then exposes up to the new capacity and retains the remainder as excess. readFromNBT and writeToNBT use Energy and EnergyExcess keys. setTotalEnergyStored is package-independent so NBT loading and tests can restore total energy without bypassing bounds.
+Implement IEnergyStorage with non-negative int arithmetic and fields energy, excess, capacity and maxTransfer. configure first combines visible plus excess, then exposes up to the new capacity and retains the remainder as excess. readFromNBT and writeToNBT use the upstream Energy, Capacity and Excess keys; transfer rate is recalculated from upgrades. setTotalEnergyStored is package-independent so NBT loading and tests can restore total energy without bypassing bounds.
 
-- [ ] **Step 4: Verify focused and full tests**
+- [x] **Step 4: Verify focused and full tests**
 
 Expected: all storage limit, simulation, shrink and restore assertions pass.
 
-- [ ] **Step 5: Update HANDOFF locally, commit, and push**
+- [x] **Step 5: Update HANDOFF locally, commit, and push**
 
 Commit message: **feat: add router RF storage**.
 
