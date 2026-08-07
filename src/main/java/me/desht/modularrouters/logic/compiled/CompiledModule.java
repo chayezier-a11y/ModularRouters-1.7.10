@@ -190,7 +190,8 @@ public abstract class CompiledModule {
         int x = router.xCoord + facing.offsetX;
         int y = router.yCoord + facing.offsetY;
         int z = router.zCoord + facing.offsetZ;
-        return Collections.singletonList(new ModuleTarget(x, y, z, facing.getOpposite(), null));
+        return Collections.singletonList(new ModuleTarget(router.getWorldObj().provider.dimensionId,
+                x, y, z, facing.getOpposite(), ""));
     }
 
     /**

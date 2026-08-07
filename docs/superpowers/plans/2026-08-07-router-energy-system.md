@@ -80,7 +80,7 @@ Commit message: **feat: add dimension-aware module targets**.
 - Modify: **src/main/java/me/desht/modularrouters/logic/compiled/CompiledModule.java**
 - Create: **src/test/java/me/desht/modularrouters/item/module/TargetedModuleTest.java**
 
-- [ ] **Step 1: Write failing compatibility and capacity tests**
+- [x] **Step 1: Write failing compatibility and capacity tests**
 
     @Test public void readsLegacySingleTargetIncludingDimension() {
         ItemStack stack = distributor();
@@ -103,11 +103,11 @@ Commit message: **feat: add dimension-aware module targets**.
         assertTrue(TargetedModule.getTargets(stack).isEmpty());
     }
 
-- [ ] **Step 2: Run the test and confirm RED**
+- [x] **Step 2: Run the test and confirm RED**
 
 Expected: compilation fails because getTargets, addTarget and toggleTarget do not exist.
 
-- [ ] **Step 3: Add single/multi-target storage**
+- [x] **Step 3: Add single/multi-target storage**
 
 Store new target compounds in an NBTTagList named MultiTarget. Implement:
 
@@ -119,11 +119,11 @@ Store new target compounds in an NBTTagList named MultiTarget. Implement:
 
 When MultiTarget is absent, read TargetX, TargetY, TargetZ, TargetDim and HasTarget exactly as before. EnergyDistributorModule overrides getMaxTargets to return 8 and accepts IEnergyHandler targets instead of requiring IInventory. CompiledModule uses getTargets for multi-target modules while preserving automatic adjacent targets for ordinary directional modules.
 
-- [ ] **Step 4: Verify focused and full tests**
+- [x] **Step 4: Verify focused and full tests**
 
 Expected: legacy, duplicate, toggle and eight-target tests pass; existing compiled module tests remain green.
 
-- [ ] **Step 5: Update HANDOFF locally, commit, and push**
+- [x] **Step 5: Update HANDOFF locally, commit, and push**
 
 Commit message: **feat: support energy distributor multi-target binding**.
 
