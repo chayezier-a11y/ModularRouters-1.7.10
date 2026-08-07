@@ -1,0 +1,42 @@
+// ForgeGradle 1.2 still points at dead legacy Minecraft HTTP/S3 URLs.
+// Keep this project-local so builds work even when Gradle runs with a sandboxed
+// user home instead of C:\Users\chaye\.gradle.
+
+def mcCache = new File(gradle.gradleUserHomeDir, 'caches/minecraft')
+def srcCandidates = [
+        new File(mcCache, 'versions/1.7.10'),
+        new File('C:/Users/chaye/.gradle/caches/minecraft/versions/1.7.10')
+]
+def srcDir = srcCandidates.find { new File(it, '1.7.10.jar').exists() }
+
+def clientDest = new File(mcCache, 'net/minecraft/minecraft/1.7.10')
+def serverDest = new File(mcCache, 'net/minecraft/minecraft_server/1.7.10')
+def mergedDest = new File(mcCache, 'net/minecraft/minecraft_merged/1.7.10')
+
+clientDest.mkdirs()
+serverDest.mkdirs()
+mergedDest.mkdirs()
+
+if (srcDir != null) {
+    def vanillaJar = new File(srcDir, '1.7.10.jar')
+    def vanillaServerJar = new File(srcDir, '1.7.10-server.jar')
+
+    if (vanillaJar.exists()) {
+        new File(clientDest, 'minecraft-1.7.10.jar').bytes = vanillaJar.bytes
+        new File(mergedDest, 'minecraft_merged-1.7.10.jar').bytes = vanillaJar.bytes
+        println '[fix] Pre-populated Minecraft client/merged jars in ForgeGradle cache'
+    }
+    if (vanillaServerJar.exists()) {
+        new File(serverDest, 'minecraft_server-1.7.10.jar').bytes = vanillaServerJar.bytes
+        println '[fix] Pre-populated Minecraft server jar in ForgeGradle cache'
+    }
+}
+
+allprojects {
+    tasks.whenTaskAdded { task ->
+        if (task.name in ['downloadClient', 'downloadServer', 'downloadMcpTools', 'getAssets', 'getVersionJson', 'getAssetsIndex', 'getAssetsCopy']) {
+            task.enabled = false
+            println "[fix] Disabled task: ${task.name}"
+        }
+    }
+}

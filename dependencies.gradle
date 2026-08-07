@@ -1,0 +1,5 @@
+dependencies {
+    // Add mod dependencies here
+    // Example:
+    // api('com.github.GTNewHorizons:NotEnoughItems:2.3.72-GTNH:dev')
+}

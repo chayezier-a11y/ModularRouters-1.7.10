@@ -1,0 +1,38 @@
+package me.desht.modularrouters.item.module;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import me.desht.modularrouters.block.tile.TileEntityItemRouter;
+import me.desht.modularrouters.logic.compiled.CompiledDistributorModule;
+import me.desht.modularrouters.logic.compiled.CompiledModule;
+import me.desht.modularrouters.util.MiscUtil;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.util.EnumChatFormatting;
+
+import java.util.List;
+
+public class DistributorModule extends SenderModule2 {
+    @Override
+    public CompiledModule compile(TileEntityItemRouter router, ItemStack stack) {
+        return new CompiledDistributorModule(router, stack);
+    }
+
+    @Override
+    public IRecipe getRecipe() {
+        return null;
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public void addExtraInformation(ItemStack stack, EntityPlayer player, List<String> list, boolean par4) {
+        super.addExtraInformation(stack, player, list, par4);
+        CompiledDistributorModule distributor = new CompiledDistributorModule(null, stack);
+        list.add(ModuleInfoFormatter.settingLine(
+                MiscUtil.translate("guiText.tooltip.distributor.strategy"),
+                MiscUtil.translate("itemText.distributor.strategy." + distributor.getDistributionStrategy())));
+        list.add(EnumChatFormatting.YELLOW + MiscUtil.translate("guiText.tooltip.distributor.direction."
+                + (distributor.isPulling() ? "IN" : "OUT")));
+    }
+}

@@ -1,0 +1,305 @@
+# Blocks
+tile.itemRouter.name=物品路由器
+tile.templateFrame.name=模板框架
+
+# Items
+item.blankModule.name=空白模块
+item.blankUpgrade.name=空白升级
+item.overrideCard.name=安全覆盖卡
+
+# Modules
+item.breakerModule.name=破坏模块
+item.dropperModule.name=投掷器模块
+item.placerModule.name=放置模块
+item.pullerModule.name=抽取模块 Mk1
+item.puller2Module.name=抽取模块 Mk2
+item.sender1Module.name=发送模块 Mk1
+item.sender2Module.name=发送模块 Mk2
+item.sender3Module.name=发送模块 Mk3
+item.sorterModule.name=分配模块
+item.vacuumModule.name=虚空模块
+item.voidModule.name=销毁模块
+item.detectorModule.name=检测模块
+item.modsorterModule.name=按Mod分拣模块
+item.flingerModule.name=投掷模块
+item.playerModule.name=玩家模块
+item.extruderModule.name=造桥模块 Mk1
+item.extruder2Module.name=造桥模块 Mk2
+item.fluidModule.name=流体模块
+
+# Upgrades
+item.stackUpgrade.name=堆叠升级
+item.speedUpgrade.name=速度升级
+item.rangeUpgrade.name=范围升级
+item.rangedownUpgrade.name=范围降级
+item.securityUpgrade.name=安全升级
+item.camouflageUpgrade.name=伪装升级
+item.syncUpgrade.name=同步升级
+item.fluidUpgrade.name=流体升级
+item.mufflerUpgrade.name=消声器升级
+item.blastUpgrade.name=爆炸升级
+
+# Smart Filters
+item.bulkitemFilter.name=批量物品过滤器
+item.inspectionFilter.name=检测过滤器
+item.modFilter.name=按Mod分拣过滤器
+item.regexFilter.name=正则表达式过滤器
+
+# GUI
+guiText.label.buffer=缓冲区
+guiText.label.upgrades=升级区
+guiText.label.modules=模块区
+guiText.tooltip.redstone.label=红石模式
+guiText.tooltip.redstone.ALWAYS=始终工作
+guiText.tooltip.redstone.HIGH=有红石信号时工作
+guiText.tooltip.redstone.LOW=无红石信号时工作
+guiText.tooltip.redstone.NEVER=从不工作
+guiText.tooltip.redstone.PULSE=红石脉冲
+guiText.label.installed=（已安装）
+
+# Direction
+guiText.tooltip.NONE=无
+guiText.tooltip.FRONT=前方
+guiText.tooltip.BACK=后方
+guiText.tooltip.LEFT=左方
+guiText.tooltip.RIGHT=右方
+guiText.tooltip.UP=上方
+guiText.tooltip.DOWN=下方
+
+# Filter Flags
+guiText.tooltip.BLACKLIST.1=白名单：空名单不匹配任何物品
+guiText.tooltip.BLACKLIST.2=黑名单：空名单匹配所有物品
+guiText.tooltip.IGNORE_META.1=匹配耐久值
+guiText.tooltip.IGNORE_META.2=忽略耐久值
+guiText.tooltip.IGNORE_NBT.1=匹配NBT
+guiText.tooltip.IGNORE_NBT.2=忽略NBT
+guiText.tooltip.IGNORE_OREDICT.1=匹配标签
+guiText.tooltip.IGNORE_OREDICT.2=忽略标签
+
+# Target
+itemText.target.bound=已绑定：%d, %d, %d
+itemText.target.notBound=未绑定目标（潜行+右键容器）
+chatText.target.bound=目标已绑定：%d, %d, %d
+chatText.target.cleared=目标已清除
+
+# Misc
+itemText.misc.routerConfigured=已配置
+itemText.misc.moduleCount=模块：%d
+itemText.misc.upgradeCount=%s：%d
+itemText.misc.holdShiftCtrl=按住Shift查看更多，Ctrl查看用法
+itemText.misc.holdCtrl=按住Ctrl查看用法
+itemText.misc.configureHint=按'%s'配置模块
+
+# Chat
+chatText.security.accessDenied=§c--[拒绝访问]--
+
+# Creative Tab
+itemGroup.modularrouters=模块化路由器
+
+# 新模块
+item.activatorModule.name=激活器模块
+item.distributorModule.name=分发器模块
+item.creativeModule.name=创造模式模块
+item.energy_distributorModule.name=能量分发模块
+item.energy_outputModule.name=能量输出模块
+item.fluid2Module.name=流体模块 Mk2
+
+# 新升级
+item.energyUpgrade.name=能量升级
+
+# 增强器
+item.augmentCore.name=增强器核心
+item.fastPickupAugment.name=快速拾取增强器
+item.filterRoundRobinAugment.name=过滤器轮询增强器
+item.mimicAugment.name=伪装增强器
+item.pickupDelayAugment.name=拾取延迟增强器
+item.pushingAugment.name=推动增强器
+item.rangeUpAugment.name=范围增加增强器
+item.rangeDownAugment.name=范围减少增强器
+item.redstoneAugment.name=红石增强器
+item.regulatorAugment.name=调节增强器
+item.stackAugment.name=堆叠增强器
+item.xpVacuumAugment.name=经验吸取增强器
+
+# 新配置
+guiText.tooltip.matchAll.false=匹配任意一个过滤条件
+guiText.tooltip.matchAll.true=匹配全部过滤条件
+guiText.tooltip.terminate.NONE.header=不终止
+guiText.tooltip.terminate.NONE=模块执行结果不影响后续模块
+guiText.tooltip.terminate.RAN.header=执行成功后终止
+guiText.tooltip.terminate.RAN=模块成功执行后停止路由器
+guiText.tooltip.terminate.NOT_RAN.header=未执行成功后终止
+guiText.tooltip.terminate.NOT_RAN=模块未执行成功后停止路由器
+gui.config.fePerEnergyUpgrade=每个能量升级的FE容量
+gui.config.feXferPerEnergyUpgrade=每个能量升级的FE传输率
+gui.config.fluid2BaseRange=流体Mk2基础范围
+gui.config.fluid2MaxRange=流体Mk2最大范围
+gui.config.extruderPushEntities=挤出器推动实体
+gui.config.breakerHarvestLevelLimit=破坏器采集等级限制
+
+# 与原版 1.16.5 一致的 GUI 提示
+guiText.tooltip.BLACKLIST.1=白名单${br}只有过滤器匹配时模块才会运行。${br}空白名单永远不会允许模块运行。
+guiText.tooltip.BLACKLIST.2=黑名单${br}过滤器匹配时模块不会运行。${br}空黑名单将始终允许模块运行。
+guiText.tooltip.IGNORE_DAMAGE.1=匹配耐久值${br}用来区分同类型但耐久值不同的可损耗物品
+guiText.tooltip.IGNORE_DAMAGE.2=忽略物品耐久${br}相同类型但耐久不同的物品将被视为同种物品
+guiText.tooltip.IGNORE_TAGS.1=启用标签匹配${br}与过滤器中任意物品属于同一标签组的物品都会匹配，例如橡木和桦木原木
+guiText.tooltip.IGNORE_TAGS.2=禁用标签匹配
+guiText.tooltip.eco.false=低耗模式 §e关闭 ${br}§7路由器将始终以全速运行。
+guiText.tooltip.eco.true=低耗模式 §a开启 ${br}§7如果路由器空闲时间超过%f秒，它将进入低耗模式，每%f秒检测运行一次。处理物品后会退出低耗模式并恢复全速运行。
+guiText.tooltip.mouseOverHelp.false=点击开启鼠标悬停提示
+guiText.tooltip.mouseOverHelp.true=鼠标悬停提示已开启 ${br}§7点击关闭
+guiText.tooltip.numberFieldTooltip=• §e§o上/下方向键§7或鼠标滚轮：调整数值${br}• 按住§e§oShift§7：粗调${br}• 按住§e§oCtrl§7：微调${br}• §e§oPage Up/Down§7：设为最大/最小值
+guiText.tooltip.regulatorTooltip=§b物品调节已启用${br}输入物品时：仅在库存物品少于设定数量时输入。${br}提取物品时：仅在库存物品多于设定数量时提取。
+guiText.tooltip.fluidRegulatorTooltip=§b流体调节已启用${br}输出流体时：仅在目标储罐存量少于设定值时输出。${br}提取流体时：仅在目标储罐存量多于设定值时提取。
+guiText.popup.filter=§a§n过滤槽${br}${br}§r在这里放置物品来定义模块过滤器。只有过滤规则允许时模块才会运行。
+guiText.popup.filterControl=§a§n过滤控制${br}${br}§r这些按钮控制黑白名单、耐久、NBT、标签和全部匹配行为。
+guiText.popup.direction=§a§n方向控制${br}${br}§r选择相对于路由器正面的模块工作方向。
+guiText.popup.noDirection=§a§n方向控制${br}${br}§r该模块没有方向控制，因此这个区域为空。
+guiText.popup.augments=§a§n增强器${br}${br}§r在这里放置兼容的增强器，为模块增加行为。
+guiText.tooltip.matchAll.false=匹配任何${br}过滤器中的任何项目都可匹配到过滤器。${br}在大多数情况下使用此选项。
+guiText.tooltip.matchAll.true=全部匹配${br}过滤器中的所有项目都必须匹配，过滤器才能匹配。${br}在特定情况下使用，例如如果你想测试附魔的皮革盔甲。
+guiText.tooltip.terminate.NONE.header=始终继续
+guiText.tooltip.terminate.NONE=无论本模块是否执行了任何操作，本 tick 都始终继续执行后续模块。
+guiText.tooltip.terminate.RAN.header=匹配时终止
+guiText.tooltip.terminate.RAN=如果本模块执行了操作，本 tick 将不再执行任何后续模块。
+guiText.tooltip.terminate.NOT_RAN.header=未匹配时终止
+guiText.tooltip.terminate.NOT_RAN=如果本模块未执行任何操作，本 tick 将不再执行任何后续模块。
+guiText.tooltip.activator.action=动作
+guiText.tooltip.activator.action.RIGHT_CLICK=右键点击方块
+guiText.tooltip.activator.action.USE_ITEM_ON_ENTITY=对实体使用物品
+guiText.tooltip.activator.action.ATTACK_ENTITY=攻击实体
+guiText.tooltip.activator.lookDirection=朝向
+guiText.tooltip.activator.look.LEVEL=平视
+guiText.tooltip.activator.look.ABOVE=上方
+guiText.tooltip.activator.look.BELOW=下方
+guiText.tooltip.activator.entityMode=实体选择
+guiText.tooltip.activator.entityMode.NEAREST=最近实体
+guiText.tooltip.activator.entityMode.RANDOM=随机实体
+guiText.tooltip.activator.entityMode.ROUND_ROBIN=轮询实体
+guiText.tooltip.activator.sneak=潜行
+guiText.tooltip.activator.sneak.false=未启用潜行
+guiText.tooltip.activator.sneak.true=已启用潜行
+guiText.popup.activator.action=§a§n激活器动作${br}${br}§r选择模块是在方块上使用物品、对实体使用物品，还是攻击实体。
+guiText.popup.activator.sneak=§a§n潜行${br}${br}§r启用后，模拟玩家会在潜行状态下执行动作。
+guiText.popup.activator.look=§a§n实体方向${br}${br}§r选择实体动作的目标是在路由器同一高度、上方还是下方。
+guiText.tooltip.detectorTooltip=§b红石信号等级
+guiText.tooltip.detector.strong=切换弱红石或强红石输出
+guiText.label.strongSignal.true=强
+guiText.label.strongSignal.false=弱
+guiText.popup.detector.signalLevel=§a§n信号等级${br}${br}§r设置检测模块发出的红石信号等级。
+guiText.popup.detector.weakStrong=§a§n信号强度${br}${br}§r选择弱红石或强红石输出。
+guiText.tooltip.distributor.strategy.ROUND_ROBIN=轮询
+guiText.tooltip.distributor.strategy.RANDOM=随机
+guiText.tooltip.distributor.strategy.NEAREST_FIRST=最近优先
+guiText.tooltip.distributor.strategy.FURTHEST_FIRST=最远优先
+guiText.tooltip.distributor.direction.OUT=向容器推入物品
+guiText.tooltip.distributor.direction.IN=从容器抽取物品
+guiText.popup.distributor.strategy=§a§n分配策略${br}${br}§r选择匹配容器的选择顺序。
+guiText.popup.distributor.direction=§a§n分配方向${br}${br}§r选择分配器是向外推送物品还是向内抽取物品。
+guiText.tooltip.flinger.speed=§b投掷速度（%f -> %f）
+guiText.tooltip.flinger.pitch=§b上下偏转（%f -> %f）
+guiText.tooltip.flinger.yaw=§b左右偏转（%f -> %f）
+guiText.popup.flinger.speed=§a§n投掷速度${br}${br}§r设置物品投掷速度。
+guiText.popup.flinger.pitch=§a§n投掷俯仰${br}${br}§r调整物品投掷的上下角度。
+guiText.popup.flinger.yaw=§a§n投掷偏航${br}${br}§r调整物品投掷的左右角度。
+guiText.tooltip.fluidTransferTooltip=§b最大流体传输${br}每次操作最多传输的流体量，单位为 mB。
+guiText.tooltip.fluid.direction.IN=将流体输入路由器
+guiText.tooltip.fluid.direction.OUT=将流体输出路由器
+guiText.tooltip.fluidForceEmpty.false=强制清空关闭${br}相邻方块已满时不会输出流体。
+guiText.tooltip.fluidForceEmpty.true=强制清空开启${br}即使可能销毁流体也会尝试输出。
+guiText.tooltip.fluidRegulationType=在 mB 和百分比之间切换流体调节方式。
+guiText.popup.fluid.maxTransfer=§a§n最大流体传输${br}${br}§r设置每次操作传输的最大流体量。
+guiText.popup.fluid.direction=§a§n流体方向${br}${br}§r选择将流体输入还是输出路由器。
+guiText.popup.fluid.forceEmpty=§a§n强制清空${br}${br}§r允许在目标方块非空时输出流体。
+guiText.tooltip.extruder2.template=模板图案${br}每个槽位的数量决定该方块在伸展图案中出现多少次。${br}非方块物品会作为间隔。
+guiText.popup.extruder2.template=§a§n造桥模块 Mk2 模板${br}${br}§r按从左到右、从上到下的顺序放置方块。堆叠数量决定放置数量，非方块物品会在图案中产生空档。
+chatText.security.owner=玩家模块已绑定到 %s
+guiText.tooltip.player.operation.EXTRACT=从玩家库存抽取物品
+guiText.tooltip.player.operation.INSERT=将物品插入玩家库存
+guiText.tooltip.player.section.MAIN=主库存和快捷栏
+guiText.tooltip.player.section.MAIN_NO_HOTBAR=主库存，不含快捷栏
+guiText.tooltip.player.section.ARMOR=盔甲栏
+guiText.tooltip.player.section.OFFHAND=副手栏（1.7.10 不可用）
+guiText.tooltip.player.section.ENDER=末影箱库存
+guiText.popup.player.control=§a§n玩家模块控制${br}${br}§r选择从绑定玩家的哪个库存区段抽取，或将物品插入哪个区段。
+guiText.tooltip.vacuum.xpBottle=将经验收集为经验瓶
+guiText.tooltip.vacuum.eject.false=经验流体自动排出关闭
+guiText.tooltip.vacuum.eject.true=经验流体自动排出开启
+guiText.popup.vacuum.xp=§a§n经验收集${br}${br}§r安装经验吸取增强器后，将经验球收集为经验瓶。
+guiText.popup.vacuum.eject=§a§n经验排出${br}${br}§r此按钮为流体经验集成预留；1.7.10 当前没有经验流体处理器。
+guiText.tooltip.breaker.matchType.ITEM=匹配掉落物${br}过滤器会针对方块的掉落物进行检查。
+guiText.tooltip.breaker.matchType.BLOCK=匹配方块${br}过滤器会针对被破坏的方块进行检查。
+guiText.popup.breaker.matchType=§a§n破坏模块匹配类型${br}${br}§r选择过滤器匹配方块本身，还是匹配方块掉落的物品。
+
+# 模块物品介绍（与 Modular Routers 1.16.5 保持一致）
+guiText.label.direction=方向
+guiText.label.breakMatchType.ITEM=按掉落物匹配
+guiText.label.breakMatchType.BLOCK=按方块匹配
+guiText.tooltip.allDirections=任何方向
+itemText.activator.action.RIGHT_CLICK=右键点击
+itemText.activator.action.USE_ITEM_ON_ENTITY=右键点击实体
+itemText.activator.action.ATTACK_ENTITY=攻击附近实体
+itemText.activator.direction.LEVEL=平视
+itemText.activator.direction.ABOVE=朝向上方
+itemText.activator.direction.BELOW=朝向下方
+itemText.activator.entityMode.NEAREST=范围内最近实体
+itemText.activator.entityMode.RANDOM=范围内随机实体
+itemText.activator.entityMode.ROUND_ROBIN=范围内轮询实体
+itemText.augments=增强器：
+itemText.augments.pickupDelay=%d tick（%f 秒）
+itemText.augments.stackInfo=%d 个物品/路由器 tick
+itemText.distributor.strategy.ROUND_ROBIN=轮询
+itemText.distributor.strategy.RANDOM=随机
+itemText.distributor.strategy.NEAREST_FIRST=最近优先
+itemText.distributor.strategy.FURTHEST_FIRST=最远优先
+itemText.extruder2.template=模板方块：
+itemText.extruder.mode.ALWAYS=§e扩展：§b红石信号大于 0
+itemText.extruder.mode.HIGH=§e扩展：§b红石信号等于 15
+itemText.extruder.mode.LOW=§e扩展：§b红石信号等于 0
+itemText.extruder.mode.NEVER=§e扩展：§b从不
+itemText.extruder.mode.PULSE=§e扩展：§b从不
+itemText.fluid.direction=§e流体传输方向：§b%s
+itemText.fluid.direction.IN=传输到路由器
+itemText.fluid.direction.OUT=从路由器输出
+itemText.fluid.maxTransfer=§e流体速率：§b每次操作最多 %d mB
+itemText.misc.blacklist=黑名单
+itemText.misc.whitelist=白名单
+itemText.misc.matchAll=全部
+itemText.misc.matchAny=任意
+itemText.misc.noItems=无物品
+itemText.misc.itemList=物品列表
+itemText.misc.flags=筛选类型
+itemText.misc.IGNORE_DAMAGE=耐久值
+itemText.misc.IGNORE_NBT=NBT 数据
+itemText.misc.IGNORE_TAGS=标签
+itemText.misc.rangeInfo=范围：%s%d §7[基础 %d，最大 %d]
+itemText.misc.breakerPick=镐：
+itemText.misc.energyUsage=能量消耗：%d FE / 操作
+itemText.misc.flingerDetails=速度：%f | 上下偏转：%f | 左右偏转：%f
+itemText.misc.operation=操作
+itemText.misc.regulator.amount=%d 个物品
+itemText.security.owner=所有者：%s
+guiText.tooltip.xpVacuum.ejectFluid=输出经验流体
+
+itemText.usage.item.breakerModule=在模块配置的方向上破坏与路由器相邻的方块，将其作为物品放入路由器缓冲区。
+itemText.usage.item.dropperModule=在模块配置的方向上，将路由器缓冲区中的物品投掷出去。
+itemText.usage.item.placerModule=如果可能，将路由器缓冲区中的物品作为方块放置到模块配置的方向。
+itemText.usage.item.pullerModule=从模块配置方向的相邻容器中抽取物品到路由器缓冲区。
+itemText.usage.item.puller2Module=从附近的任意容器中抽取物品到路由器缓冲区。
+itemText.usage.item.sender1Module=沿直线将路由器缓冲区中的物品发送到目标容器，不透明方块会阻挡传输。
+itemText.usage.item.sender2Module=将路由器缓冲区中的物品发送到附近容器，传输可以穿过方块。
+itemText.usage.item.sender3Module=将路由器缓冲区中的物品发送到任意容器，包括其他维度的容器。
+itemText.usage.item.vacuumModule=将世界中掉落的物品吸收到路由器缓冲区。未设置方向时会从所有方向收集。
+itemText.usage.item.voidModule=§c*** 警告 ***${br}永久销毁路由器缓冲区中的物品！
+itemText.usage.item.detectorModule=当缓冲区物品通过过滤器时，在模块配置方向上从路由器发出红石信号。
+itemText.usage.item.flingerModule=将路由器缓冲区中的物品投掷到很远的地方，可在模块 GUI 中调整速度、上下偏转和左右偏转。
+itemText.usage.item.playerModule=在玩家库存和路由器缓冲区之间远程传输物品。
+itemText.usage.item.extruderModule=根据路由器红石信号，在模块方向上沿直线放置或收回方块。
+itemText.usage.item.extruder2Module=类似造桥模块 Mk1，但从内部模板图案放置模板方块，而不是从路由器缓冲区放置真实方块。
+itemText.usage.item.fluidModule=在模块配置方向上将流体输入或输出路由器。路由器缓冲区中必须有流体容器。
+itemText.usage.item.fluid2Module=在附近方块与路由器之间传输流体。路由器缓冲区中必须有流体容器。
+itemText.usage.item.activatorModule=使用路由器缓冲区中的物品模拟右键方块或实体，表现得像一个假玩家。
+itemText.usage.item.distributorModule=将路由器缓冲区中的物品分配给多个容器，可选择轮询、随机、最近优先或最远优先。
+itemText.usage.item.creativeModule=凭空创造物品并将其放入路由器缓冲区。
+itemText.usage.item.energy_distributorModule=将路由器或缓冲区能量物品中的 FE 分配给附近的能量方块。
+itemText.usage.item.energy_outputModule=将路由器或缓冲区能量物品中的 FE 推送到模块目标。

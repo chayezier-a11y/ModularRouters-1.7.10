@@ -1,0 +1,13 @@
+.gradle/
+build/
+run/
+logs/
+.idea/
+.vscode/
+.claude/
+/HANDOFF.md
+*.iml
+*.ipr
+*.iws
+*.log
+hs_err_pid*

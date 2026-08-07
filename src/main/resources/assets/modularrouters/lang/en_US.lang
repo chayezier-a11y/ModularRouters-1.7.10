@@ -1,0 +1,325 @@
+# Blocks
+tile.itemRouter.name=Modular Router
+tile.templateFrame.name=Template Frame
+
+# Items
+item.blankModule.name=Blank Module
+item.blankUpgrade.name=Blank Upgrade
+item.overrideCard.name=Override Card
+
+# Modules
+item.breakerModule.name=Breaker Module
+item.dropperModule.name=Dropper Module
+item.placerModule.name=Placer Module
+item.pullerModule.name=Puller Module Mk1
+item.sender1Module.name=Sender Module Mk1
+item.sender2Module.name=Sender Module Mk2
+item.sender3Module.name=Sender Module Mk3
+item.sorterModule.name=Sorter Module
+item.vacuumModule.name=Vacuum Module
+item.voidModule.name=Void Module
+item.detectorModule.name=Detector Module
+item.modsorterModule.name=Mod Sorter Module
+item.flingerModule.name=Flinger Module
+item.playerModule.name=Player Module
+item.extruderModule.name=Extruder Module Mk1
+item.fluidModule.name=Fluid Module
+item.puller2Module.name=Puller Module Mk2
+item.extruder2Module.name=Extruder Module Mk2
+
+# Upgrades
+item.stackUpgrade.name=Stack Upgrade
+item.speedUpgrade.name=Speed Upgrade
+item.rangeUpgrade.name=Range Upgrade
+item.rangedownUpgrade.name=Range Downgrade
+item.securityUpgrade.name=Security Upgrade
+item.camouflageUpgrade.name=Camouflage Upgrade
+item.syncUpgrade.name=Sync Upgrade
+item.fluidUpgrade.name=Fluid Upgrade
+item.mufflerUpgrade.name=Muffler Upgrade
+item.blastUpgrade.name=Blast Upgrade
+
+# Smart Filters
+item.bulkItemFilter.name=Bulk Item Filter
+item.bulkitemFilter.name=Bulk Item Filter
+item.inspectionFilter.name=Inspection Filter
+item.modFilter.name=Mod Filter
+item.regexFilter.name=Regex Filter
+
+# GUI
+guiText.tooltip.redstone.label=Redstone Mode
+guiText.tooltip.redstone.ALWAYS=Always
+guiText.tooltip.redstone.HIGH=High
+guiText.tooltip.redstone.LOW=Low
+guiText.tooltip.redstone.NEVER=Never
+guiText.tooltip.redstone.PULSE=Pulse
+guiText.label.buffer=Buffer
+guiText.label.upgrades=Upgrades
+guiText.label.modules=Modules
+
+# Target Binding
+guiText.label.installed=(Installed)
+guiText.tooltip.matchAll.false=Match any filter entry
+guiText.tooltip.matchAll.true=Match all filter entries
+guiText.tooltip.terminate.NONE.header=Do not terminate
+guiText.tooltip.terminate.NONE=Continue with the next module
+guiText.tooltip.terminate.RAN.header=Terminate when run
+guiText.tooltip.terminate.RAN=Stop after this module runs
+guiText.tooltip.terminate.NOT_RAN.header=Terminate when not run
+guiText.tooltip.terminate.NOT_RAN=Stop when this module does not run
+itemText.target.bound=Bound to: %d, %d, %d
+itemText.target.notBound=No target bound (Sneak+Right-click inventory)
+chatText.target.bound=Target bound: %d, %d, %d
+chatText.target.cleared=Target cleared
+
+# Misc
+itemText.misc.routerConfigured=Configured
+itemText.misc.moduleCount=Modules: %d
+itemText.misc.upgradeCount=%s: %d
+itemText.misc.holdShiftCtrl=Hold Shift for more info, Ctrl for usage
+itemText.misc.holdCtrl=Hold Ctrl for usage info
+itemText.misc.configureHint=Press '%s' while hovering over a filter slot to configure
+
+# Chat
+chatText.security.accessDenied=Access Denied!
+
+# Sound subtitles
+subtitle.modularrouters.error=Error
+subtitle.modularrouters.extruder=Extruder
+
+# Config
+gui.config.configKey=Config Key
+gui.config.baseTickRate=Base Tick Rate
+gui.config.ticksPerUpgrade=Speed Upgrade Reduction
+gui.config.hardMinTicks=Hard Minimum Tick Rate
+gui.config.ecoTimeout=Eco Timeout
+gui.config.lowPowerTickRate=Low Power Tick Rate
+gui.config.fluidBaseTransfer=Fluid Base Transfer
+gui.config.fluidMaxTransfer=Fluid Max Transfer
+gui.config.mBperFluidUpgrade=Fluid Upgrade Transfer Increase
+gui.config.sender1BaseRange=Sender Mk1 Base Range
+gui.config.sender1MaxRange=Sender Mk1 Max Range
+gui.config.sender2BaseRange=Sender Mk2 Base Range
+gui.config.sender2MaxRange=Sender Mk2 Max Range
+gui.config.vacuumBaseRange=Vacuum Base Range
+gui.config.vacuumMaxRange=Vacuum Max Range
+gui.config.extruderBaseRange=Extruder Mk1 Base Range
+gui.config.extruderMaxRange=Extruder Mk1 Max Range
+gui.config.extruder2BaseRange=Extruder Mk2 Base Range
+gui.config.extruder2MaxRange=Extruder Mk2 Max Range
+gui.config.puller2BaseRange=Puller Mk2 Base Range
+gui.config.puller2MaxRange=Puller Mk2 Max Range
+gui.config.senderParticles=Sender Particles
+gui.config.pullerParticles=Puller Particles
+gui.config.vacuumParticles=Vacuum Particles
+gui.config.placerParticles=Placer Particles
+gui.config.breakerParticles=Breaker Particles
+gui.config.extruderSound=Extruder Sound
+gui.config.flingerEffects=Flinger Effects
+
+# New Modules
+item.activatorModule.name=Activator Module
+item.distributorModule.name=Distributor Module
+item.creativeModule.name=Creative Module
+item.energy_distributorModule.name=Energy Distributor Module
+item.energy_outputModule.name=Energy Output Module
+item.fluid2Module.name=Fluid Module Mk2
+
+# New Upgrade
+item.energyUpgrade.name=Energy Upgrade
+
+# Augments
+item.augmentCore.name=Augment Core
+item.fastPickupAugment.name=Fast Pickup Augment
+item.filterRoundRobinAugment.name=Filter Round Robin Augment
+item.mimicAugment.name=Mimic Augment
+item.pickupDelayAugment.name=Pickup Delay Augment
+item.pushingAugment.name=Pushing Augment
+item.rangeUpAugment.name=Range Up Augment
+item.rangeDownAugment.name=Range Down Augment
+item.redstoneAugment.name=Redstone Augment
+item.regulatorAugment.name=Regulator Augment
+item.stackAugment.name=Stack Augment
+item.xpVacuumAugment.name=XP Vacuum Augment
+
+# New Config
+gui.config.fePerEnergyUpgrade=FE Per Energy Upgrade
+gui.config.feXferPerEnergyUpgrade=FE Transfer Per Energy Upgrade
+gui.config.fluid2BaseRange=Fluid Mk2 Base Range
+gui.config.fluid2MaxRange=Fluid Mk2 Max Range
+gui.config.extruderPushEntities=Extruder Push Entities
+gui.config.breakerHarvestLevelLimit=Breaker Harvest Level Limit
+
+# Exact GUI tooltip text from Modular Routers 1.16.5
+guiText.tooltip.NONE=None
+guiText.tooltip.FRONT=Front
+guiText.tooltip.BACK=Back
+guiText.tooltip.LEFT=Left
+guiText.tooltip.RIGHT=Right
+guiText.tooltip.UP=Up
+guiText.tooltip.DOWN=Down
+guiText.tooltip.BLACKLIST.1=Whitelist${br}The module will run only if the filter matches.${br}An empty whitelist will never allow the module to run.
+guiText.tooltip.BLACKLIST.2=Blacklist${br}The module will not run if the filter matches.${br}An empty blacklist will always allow the module to run.
+guiText.tooltip.IGNORE_DAMAGE.1=Match Item Damage${br}Distinguish between damageable items of the same type with different damage levels
+guiText.tooltip.IGNORE_DAMAGE.2=Ignore Item Damage${br}Treat damageable items of the same type but different damage levels as the same
+guiText.tooltip.IGNORE_TAGS.1=Tag Matching Enabled${br}Items in the same tag group as any item in the filter will match, e.g. oak and birch logs
+guiText.tooltip.IGNORE_TAGS.2=Tag Matching Disabled
+guiText.tooltip.eco.false=Eco Mode §edisabled ${br}§7Router will always run at normal speed.
+guiText.tooltip.eco.true=Eco Mode §aenabled ${br}§7If router is idle for >%f seconds, it will enter low-power mode and only run every %f seconds. It will leave low-power mode upon processing any item and return to running at normal speed.
+guiText.tooltip.mouseOverHelp.false=Click to activate mouse-over help
+guiText.tooltip.mouseOverHelp.true=Mouse-over help active ${br}§7Click to deactivate
+guiText.tooltip.numberFieldTooltip=• §e§oCursor Up/Down§7 or mouse wheel: adjust${br}• Hold §e§oShift§7: coarse adjust${br}• Hold §e§oCtrl§7: fine adjust${br}• §e§oPage Up/Down§7: set to max/min
+guiText.tooltip.regulatorTooltip=§bItem Regulation Enabled${br}When inserting: only insert when inventory has fewer than this many of the item.${br}When extracting: only extract if inventory has more than this many of the item.
+guiText.tooltip.fluidRegulatorTooltip=§bFluid Regulation Enabled${br}When outputting: only output when the target tank contains less than this amount.${br}When extracting: only extract when the target tank contains more than this amount.
+guiText.popup.filter=§a§nFilter Slots${br}${br}§rPlace items here to define the module filter. The module only runs when its filter rules allow it.
+guiText.popup.filterControl=§a§nFilter Controls${br}${br}§rThese buttons control blacklist mode, damage, NBT, tag and match-all behavior.
+guiText.popup.direction=§a§nDirection Control${br}${br}§rChoose the direction relative to the router front in which this module operates.
+guiText.popup.noDirection=§a§nDirection Control${br}${br}§rThis module has no direction control, so this area is intentionally empty.
+guiText.popup.augments=§a§nAugments${br}${br}§rPlace compatible augments here to add behavior to this module.
+guiText.tooltip.matchAll.false=Match Any${br}Any item in the filter may match for the filter to match.${br}Use this under most circumstances.
+guiText.tooltip.matchAll.true=Match All${br}ALL items in the filter must match for the filter to match.${br}Used in specific circumstances, e.g. if you want to test for enchanted leather armor.
+guiText.tooltip.terminate.NONE.header=Always Continue
+guiText.tooltip.terminate.NONE=Always continue executing subsequent modules on this tick, regardless of whether this module did anything.
+guiText.tooltip.terminate.RAN.header=Terminate on Match
+guiText.tooltip.terminate.RAN=Don't execute any subsequent modules on this tick if this module did something.
+guiText.tooltip.terminate.NOT_RAN.header=Terminate on no Match
+guiText.tooltip.terminate.NOT_RAN=Don't execute any subsequent modules on this tick if this module did NOT do anything.
+guiText.tooltip.activator.action=Action
+guiText.tooltip.activator.action.RIGHT_CLICK=Right-click block
+guiText.tooltip.activator.action.USE_ITEM_ON_ENTITY=Use item on entity
+guiText.tooltip.activator.action.ATTACK_ENTITY=Attack entity
+guiText.tooltip.activator.lookDirection=Look direction
+guiText.tooltip.activator.look.LEVEL=Look level
+guiText.tooltip.activator.look.ABOVE=Look above
+guiText.tooltip.activator.look.BELOW=Look below
+guiText.tooltip.activator.entityMode=Entity selection
+guiText.tooltip.activator.entityMode.NEAREST=Nearest entity
+guiText.tooltip.activator.entityMode.RANDOM=Random entity
+guiText.tooltip.activator.entityMode.ROUND_ROBIN=Round-robin entity
+guiText.tooltip.activator.sneak=Sneak
+guiText.tooltip.activator.sneak.false=Sneaking disabled
+guiText.tooltip.activator.sneak.true=Sneaking enabled
+guiText.popup.activator.action=§a§nActivator Action${br}${br}§rChoose whether the module uses its item on a block, uses it on an entity, or attacks an entity.
+guiText.popup.activator.sneak=§a§nSneak${br}${br}§rThe fake player performs the action while sneaking when enabled.
+guiText.popup.activator.look=§a§nEntity Direction${br}${br}§rChoose whether entity actions target level, above, or below the router.
+guiText.tooltip.detectorTooltip=§bRedstone Signal Level
+guiText.tooltip.detector.strong=Toggle weak or strong redstone output
+guiText.label.strongSignal.true=Strong
+guiText.label.strongSignal.false=Weak
+guiText.popup.detector.signalLevel=§a§nSignal Level${br}${br}§rSet the redstone signal level emitted by the detector.
+guiText.popup.detector.weakStrong=§a§nSignal Strength${br}${br}§rChoose weak or strong redstone output.
+guiText.tooltip.distributor.strategy.ROUND_ROBIN=Round robin
+guiText.tooltip.distributor.strategy.RANDOM=Random
+guiText.tooltip.distributor.strategy.NEAREST_FIRST=Nearest first
+guiText.tooltip.distributor.strategy.FURTHEST_FIRST=Furthest first
+guiText.tooltip.distributor.direction.OUT=Push items to inventories
+guiText.tooltip.distributor.direction.IN=Pull items from inventories
+guiText.popup.distributor.strategy=§a§nDistribution Strategy${br}${br}§rChoose the order in which matching inventories are selected.
+guiText.popup.distributor.direction=§a§nDistribution Direction${br}${br}§rChoose whether the distributor pushes items out or pulls items in.
+guiText.tooltip.flinger.speed=§bSpeed (%f -> %f)
+guiText.tooltip.flinger.pitch=§bPitch (%f -> %f)
+guiText.tooltip.flinger.yaw=§bYaw (%f -> %f)
+guiText.popup.flinger.speed=§a§nFling Speed${br}${br}§rSet the speed at which items are thrown.
+guiText.popup.flinger.pitch=§a§nFling Pitch${br}${br}§rAdjust the vertical angle of thrown items.
+guiText.popup.flinger.yaw=§a§nFling Yaw${br}${br}§rAdjust the horizontal angle of thrown items.
+guiText.tooltip.fluidTransferTooltip=§bMaximum Fluid Transfer${br}Maximum fluid amount transferred per operation, in mB.
+guiText.tooltip.fluid.direction.IN=Transfer fluid into the router
+guiText.tooltip.fluid.direction.OUT=Transfer fluid out of the router
+guiText.tooltip.fluidForceEmpty.false=Force empty disabled${br}Fluid will not be output if the adjacent block is full.
+guiText.tooltip.fluidForceEmpty.true=Force empty enabled${br}Fluid will be output even if that may destroy it.
+guiText.tooltip.fluidRegulationType=Switch fluid regulation between mB and percent.
+guiText.popup.fluid.maxTransfer=§a§nMaximum Fluid Transfer${br}${br}§rSet the maximum amount of fluid transferred in one operation.
+guiText.popup.fluid.direction=§a§nFluid Direction${br}${br}§rChoose whether fluid is moved into or out of the router.
+guiText.popup.fluid.forceEmpty=§a§nForce Empty${br}${br}§rAllow fluid output even when the target block is not empty.
+guiText.tooltip.extruder2.template=Template pattern${br}Each slot adds that many blocks to the extrusion pattern.${br}Non-block items act as spacers.
+guiText.popup.extruder2.template=§a§nExtruder Mk2 Template${br}${br}§rPlace blocks in order from left to right, top to bottom. The stack size controls how many blocks are placed. Non-block items create gaps in the pattern.
+chatText.security.owner=Player module bound to %s
+guiText.tooltip.player.operation.EXTRACT=Extract items from the player inventory
+guiText.tooltip.player.operation.INSERT=Insert items into the player inventory
+guiText.tooltip.player.section.MAIN=Main inventory and hotbar
+guiText.tooltip.player.section.MAIN_NO_HOTBAR=Main inventory, excluding hotbar
+guiText.tooltip.player.section.ARMOR=Armor inventory
+guiText.tooltip.player.section.OFFHAND=Offhand inventory (not available in 1.7.10)
+guiText.tooltip.player.section.ENDER=Ender chest inventory
+guiText.popup.player.control=§a§nPlayer Module Control${br}${br}§rChoose whether to extract from or insert into the bound player's selected inventory section.
+guiText.tooltip.vacuum.xpBottle=Collect XP as bottles
+guiText.tooltip.vacuum.eject.false=XP fluid auto-eject disabled
+guiText.tooltip.vacuum.eject.true=XP fluid auto-eject enabled
+guiText.popup.vacuum.xp=§a§nXP Collection${br}${br}§rCollect experience orbs as experience bottles when the XP Vacuum Augment is installed.
+guiText.popup.vacuum.eject=§a§nXP Ejection${br}${br}§rReserved for fluid XP integrations; no XP fluid handler is available in 1.7.10.
+guiText.tooltip.breaker.matchType.ITEM=Match dropped items${br}The filter is checked against the block's drops.
+guiText.tooltip.breaker.matchType.BLOCK=Match the block${br}The filter is checked against the block being broken.
+guiText.popup.breaker.matchType=§a§nBreaker Match Type${br}${br}§rChoose whether the filter matches the block itself or the items it drops.
+
+# Module item tooltip text (matching Modular Routers 1.16.5)
+guiText.label.direction=Direction
+guiText.label.breakMatchType.ITEM=Match by Dropped Item(s)
+guiText.label.breakMatchType.BLOCK=Match by Block
+guiText.tooltip.allDirections=All
+itemText.activator.action.RIGHT_CLICK=Right-click
+itemText.activator.action.USE_ITEM_ON_ENTITY=Right-click entity
+itemText.activator.action.ATTACK_ENTITY=Attack nearby entity
+itemText.activator.direction.LEVEL=Look Level
+itemText.activator.direction.ABOVE=Look Above
+itemText.activator.direction.BELOW=Look Below
+itemText.activator.entityMode.NEAREST=Nearest in-range entity
+itemText.activator.entityMode.RANDOM=Random in-range entity
+itemText.activator.entityMode.ROUND_ROBIN=Round Robin in-range entities
+itemText.augments=Augments:
+itemText.augments.pickupDelay=%d ticks (%f sec)
+itemText.augments.stackInfo=%d items/router tick
+itemText.distributor.strategy.ROUND_ROBIN=Round Robin
+itemText.distributor.strategy.RANDOM=Random
+itemText.distributor.strategy.NEAREST_FIRST=Nearest First
+itemText.distributor.strategy.FURTHEST_FIRST=Furthest First
+itemText.extruder2.template=Template Blocks:
+itemText.extruder.mode.ALWAYS=Extend: With redstone signal > 0
+itemText.extruder.mode.HIGH=Extend: With redstone signal = 15
+itemText.extruder.mode.LOW=Extend: With redstone signal = 0
+itemText.extruder.mode.NEVER=Extend: Never
+itemText.extruder.mode.PULSE=Extend: Never
+itemText.fluid.direction=Fluid Direction: %s
+itemText.fluid.direction.IN=Transfer into Router
+itemText.fluid.direction.OUT=Transfer out of Router
+itemText.fluid.maxTransfer=Fluid Rate: Up to %d mB / operation
+itemText.misc.blacklist=Blacklist
+itemText.misc.whitelist=Whitelist
+itemText.misc.matchAll=All
+itemText.misc.matchAny=Any
+itemText.misc.noItems=Empty
+itemText.misc.itemList=Item List
+itemText.misc.flags=Flags
+itemText.misc.IGNORE_DAMAGE=Damage
+itemText.misc.IGNORE_NBT=NBT
+itemText.misc.IGNORE_TAGS=Tags
+itemText.misc.rangeInfo=Range: %s%d [base %d, max %d]
+itemText.misc.breakerPick=Pickaxe: 
+itemText.misc.energyUsage=Energy Usage: %d FE / operation
+itemText.misc.flingerDetails=Speed: %f | Pitch: %f | Yaw: %f
+itemText.misc.operation=Operation
+itemText.misc.regulator.amount=%d item(s)
+itemText.security.owner=Owner: %s
+guiText.tooltip.xpVacuum.ejectFluid=XP Fluids Ejected
+
+itemText.usage.item.breakerModule=Breaks a block adjacent to the router in the module's configured direction, pulling it as an item into the router's buffer.
+itemText.usage.item.dropperModule=Drops items from the router's buffer in the module's configured direction.
+itemText.usage.item.placerModule=Places an item from the router's buffer as a block in the module's configured direction, if possible.
+itemText.usage.item.pullerModule=Extracts items from an adjacent inventory in the module's configured direction into the router's buffer.
+itemText.usage.item.puller2Module=Extracts items from any nearby inventory into the router's buffer.
+itemText.usage.item.sender1Module=Pushes items from the router's buffer to the targeted inventory in a straight line. Opaque blocks can prevent the transfer.
+itemText.usage.item.sender2Module=Pushes items from the router's buffer to a nearby inventory. The transfer can pass through blocks.
+itemText.usage.item.sender3Module=Pushes items from the router's buffer to any inventory, including across dimensions.
+itemText.usage.item.vacuumModule=Pulls dropped items from the world into the router's buffer. With no direction configured, it collects from any direction.
+itemText.usage.item.voidModule=§c*** WARNING ***${br}Permanently destroys items in the router's buffer!
+itemText.usage.item.detectorModule=Emits a redstone signal from the router in the module's configured direction if the buffer item passes the filter.
+itemText.usage.item.flingerModule=Throws items from the router's buffer over potentially long distances. Adjust speed, pitch and yaw in the module GUI.
+itemText.usage.item.playerModule=Remotely transfers items between a player's inventory and the router's buffer.
+itemText.usage.item.extruderModule=Places or removes blocks in a line along the module's direction, depending on the router's redstone signal.
+itemText.usage.item.extruder2Module=Operates like the Extruder Mk1, but places template blocks from an internal pattern buffer instead of real blocks from the router's buffer.
+itemText.usage.item.fluidModule=Transfers fluids into or out of the router to or from an adjacent block in the module's direction.${br}The router's buffer must contain a fluid container item.
+itemText.usage.item.fluid2Module=Transfers fluids into or out of the router to or from any nearby block.${br}The router's buffer must contain a fluid container item.
+itemText.usage.item.activatorModule=Simulates right-clicking blocks and entities using the items in the router's buffer. Acts as a fake player.
+itemText.usage.item.distributorModule=Distributes items from the router's buffer to multiple inventories, with a choice of round-robin, random, nearest-first or furthest-first.
+itemText.usage.item.creativeModule=Creates items out of thin air and inserts them into the router's buffer.
+itemText.usage.item.energy_distributorModule=Distributes FE energy from the router or an energy-containing buffer item to nearby energy-containing blocks.
+itemText.usage.item.energy_outputModule=Pushes FE energy from the router or an energy-containing buffer item to the module's target.

@@ -1,0 +1,81 @@
+package me.desht.modularrouters.logic.compiled;
+
+import me.desht.modularrouters.block.tile.TileEntityItemRouter;
+import me.desht.modularrouters.item.module.DetectorModule;
+import me.desht.modularrouters.util.ModuleHelper;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+
+import javax.annotation.Nonnull;
+
+public class CompiledDetectorModule extends CompiledModule {
+    public static final String NBT_SIGNAL_LEVEL = "SignalLevel";
+    public static final String NBT_STRONG_SIGNAL = "StrongSignal";
+
+    private final int signalLevel;
+    private final boolean strongSignal;
+
+    public CompiledDetectorModule(TileEntityItemRouter router, ItemStack stack) {
+        super(router, stack);
+
+        NBTTagCompound compound = ModuleHelper.validateNBT(stack);
+        if (!compound.hasKey(NBT_SIGNAL_LEVEL)) {
+            compound.setInteger(NBT_SIGNAL_LEVEL, 15);
+        }
+        if (!compound.hasKey(NBT_STRONG_SIGNAL)) {
+            compound.setBoolean(NBT_STRONG_SIGNAL, false);
+        }
+        signalLevel = compound.getInteger(NBT_SIGNAL_LEVEL);
+        strongSignal = compound.getBoolean(NBT_STRONG_SIGNAL);
+    }
+
+    @Override
+    public boolean hasTarget() {
+        return true;
+    }
+
+    @Override
+    public boolean execute(@Nonnull TileEntityItemRouter router) {
+        ItemStack stack = router.getBufferItemStack();
+
+        if (!getFilter().allowItem(stack)) {
+            return false;
+        }
+
+        router.emitRedstone(getDirection(), getSignalLevel(),
+                DetectorModule.SignalType.getType(isStrongSignal()));
+
+        return true;
+    }
+
+    private NBTTagCompound setupNBT(ItemStack stack) {
+        NBTTagCompound compound = ModuleHelper.validateNBT(stack);
+        if (!compound.hasKey(NBT_SIGNAL_LEVEL)) {
+            compound.setInteger(NBT_SIGNAL_LEVEL, 15);
+        }
+        if (!compound.hasKey(NBT_STRONG_SIGNAL)) {
+            compound.setBoolean(NBT_STRONG_SIGNAL, false);
+        }
+        return compound;
+    }
+
+    public int getSignalLevel() {
+        return signalLevel;
+    }
+
+    public boolean isStrongSignal() {
+        return strongSignal;
+    }
+
+    @Override
+    public void onCompiled(TileEntityItemRouter router) {
+        super.onCompiled(router);
+        router.setAllowRedstoneEmission(true);
+    }
+
+    @Override
+    public void cleanup(TileEntityItemRouter router) {
+        super.cleanup(router);
+        router.setAllowRedstoneEmission(false);
+    }
+}

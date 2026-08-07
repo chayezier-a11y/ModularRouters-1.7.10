@@ -1,0 +1,16 @@
+[
+{
+  "modid": "modularrouters",
+  "name": "Modular Routers",
+  "description": "Flexible item routing with modular upgrades and modules.",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "https://github.com/desht/ModularRouters",
+  "updateUrl": "",
+  "authorList": ["desht"],
+  "credits": "Original mod by desht, ported to 1.7.10",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
