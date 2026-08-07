@@ -1,5 +1,6 @@
 package me.desht.modularrouters.gui;
 
+import cofh.api.energy.IEnergyContainerItem;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import me.desht.modularrouters.ModularRouters;
@@ -7,6 +8,7 @@ import me.desht.modularrouters.block.tile.TileEntityItemRouter;
 import me.desht.modularrouters.container.ContainerItemRouter;
 import me.desht.modularrouters.config.Config;
 import me.desht.modularrouters.gui.widgets.button.TexturedToggleButton;
+import me.desht.modularrouters.gui.widgets.EnergyWidget;
 import me.desht.modularrouters.item.module.ItemModule;
 import me.desht.modularrouters.network.ModuleConfigMessage;
 import me.desht.modularrouters.network.RouterSettingsMessage;
@@ -25,8 +27,12 @@ public class GuiItemRouter extends GuiContainer {
             ModularRouters.modId, "textures/gui/router.png");
     private static final int BTN_REDSTONE = 300;
     private static final int BTN_ECO = 301;
+    private static final int BTN_ENERGY_DIRECTION = 302;
+    private static final int WIDGET_ENERGY = 303;
     private RedstoneBehaviourButton redstoneButton;
     private TexturedToggleButton ecoButton;
+    private EnergyDirectionButton energyDirectionButton;
+    private EnergyWidget energyWidget;
 
     public GuiItemRouter(EntityPlayer player, TileEntityItemRouter router) {
         super(new ContainerItemRouter(player, router));
@@ -50,6 +56,12 @@ public class GuiItemRouter extends GuiContainer {
                 Config.ecoTimeout / 20.0f, Config.lowPowerTickRate / 20.0f);
         buttonList.add(redstoneButton);
         buttonList.add(ecoButton);
+        energyDirectionButton = new EnergyDirectionButton(BTN_ENERGY_DIRECTION,
+                guiLeft - 8, guiTop + 40, router);
+        energyWidget = new EnergyWidget(WIDGET_ENERGY, guiLeft - 24, guiTop + 15, router);
+        buttonList.add(energyDirectionButton);
+        buttonList.add(energyWidget);
+        updateEnergyControlVisibility();
     }
 
     @Override
@@ -60,12 +72,16 @@ public class GuiItemRouter extends GuiContainer {
         } else if (button.id == BTN_ECO) {
             ecoButton.toggle();
             sendRouterSettings();
+        } else if (button.id == BTN_ENERGY_DIRECTION) {
+            energyDirectionButton.cycle(!isShiftKeyDown());
+            sendRouterSettings();
         }
     }
 
     private void sendRouterSettings() {
         router.setRedstoneBehaviour(redstoneButton.getState());
         router.setEcoMode(ecoButton.isToggled());
+        router.setEnergyDirection(energyDirectionButton.getState());
         ModularRouters.network.sendToServer(new RouterSettingsMessage(router));
     }
 
@@ -87,9 +103,18 @@ public class GuiItemRouter extends GuiContainer {
 
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+        updateEnergyControlVisibility();
         super.drawScreen(mouseX, mouseY, partialTicks);
         java.util.List<String> tooltip = GuiTooltip.getHoveredTooltip(buttonList, mouseX, mouseY);
         if (tooltip != null) drawHoveringText(tooltip, mouseX, mouseY, fontRendererObj);
+    }
+
+    private void updateEnergyControlVisibility() {
+        boolean hasEnergy = router.getEnergyCapacity() > 0;
+        energyWidget.visible = hasEnergy;
+        net.minecraft.item.ItemStack stack = router.getBufferItemStack();
+        energyDirectionButton.visible = hasEnergy && stack != null
+                && stack.getItem() instanceof IEnergyContainerItem;
     }
 
     @Override

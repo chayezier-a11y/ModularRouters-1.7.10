@@ -284,6 +284,10 @@ public class TileEntityItemRouter extends TileEntity implements ISidedInventory,
         return energyStorage;
     }
 
+    public void setClientEnergy(int energy, int capacity) {
+        energyStorage.setClientValues(energy, capacity);
+    }
+
     public EnergyDirection getEnergyDirection() {
         return energyDirection;
     }

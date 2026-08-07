@@ -13,6 +13,7 @@ public class RouterSettingsMessage implements IMessage {
     private int x, y, z;
     private RouterRedstoneBehaviour redstoneBehaviour;
     private boolean ecoMode;
+    private TileEntityItemRouter.EnergyDirection energyDirection;
 
     public RouterSettingsMessage() {}
 
@@ -22,6 +23,7 @@ public class RouterSettingsMessage implements IMessage {
         this.z = router.zCoord;
         this.redstoneBehaviour = router.getRedstoneBehaviour();
         this.ecoMode = router.getEcoMode();
+        this.energyDirection = router.getEnergyDirection();
     }
 
     @Override
@@ -31,6 +33,7 @@ public class RouterSettingsMessage implements IMessage {
         buf.writeInt(z);
         buf.writeByte(redstoneBehaviour.ordinal());
         buf.writeBoolean(ecoMode);
+        buf.writeByte(energyDirection.ordinal());
     }
 
     @Override
@@ -38,8 +41,28 @@ public class RouterSettingsMessage implements IMessage {
         x = buf.readInt();
         y = buf.readInt();
         z = buf.readInt();
-        redstoneBehaviour = RouterRedstoneBehaviour.values()[buf.readByte()];
+        redstoneBehaviour = decodeRedstone(buf.readByte());
         ecoMode = buf.readBoolean();
+        energyDirection = decodeEnergyDirection(buf.readByte());
+    }
+
+    public RouterRedstoneBehaviour getRedstoneBehaviour() {
+        return redstoneBehaviour;
+    }
+
+    public TileEntityItemRouter.EnergyDirection getEnergyDirection() {
+        return energyDirection;
+    }
+
+    private static RouterRedstoneBehaviour decodeRedstone(int ordinal) {
+        RouterRedstoneBehaviour[] values = RouterRedstoneBehaviour.values();
+        return ordinal >= 0 && ordinal < values.length ? values[ordinal] : RouterRedstoneBehaviour.ALWAYS;
+    }
+
+    private static TileEntityItemRouter.EnergyDirection decodeEnergyDirection(int ordinal) {
+        TileEntityItemRouter.EnergyDirection[] values = TileEntityItemRouter.EnergyDirection.values();
+        return ordinal >= 0 && ordinal < values.length
+                ? values[ordinal] : TileEntityItemRouter.EnergyDirection.NONE;
     }
 
     public static class Handler implements IMessageHandler<RouterSettingsMessage, IMessage> {
@@ -50,6 +73,7 @@ public class RouterSettingsMessage implements IMessage {
             if (router != null && router.isPermitted(player) && router.isUseableByPlayer(player)) {
                 router.setRedstoneBehaviour(message.redstoneBehaviour);
                 router.setEcoMode(message.ecoMode);
+                router.setEnergyDirection(message.energyDirection);
             }
             return null;
         }

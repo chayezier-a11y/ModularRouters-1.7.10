@@ -51,6 +51,12 @@ public class RouterEnergyStorage implements IEnergyStorage {
         return true;
     }
 
+    public void setClientValues(int energy, int capacity) {
+        this.capacity = nonNegative(capacity);
+        this.energy = Math.min(nonNegative(energy), this.capacity);
+        this.excess = 0;
+    }
+
     public RouterEnergyStorage readFromNBT(NBTTagCompound tag) {
         capacity = nonNegative(tag.getInteger(NBT_CAPACITY));
         long loadedEnergy = nonNegative(tag.getInteger(NBT_ENERGY));

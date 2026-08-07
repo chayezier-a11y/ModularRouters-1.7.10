@@ -7,6 +7,7 @@ import me.desht.modularrouters.item.upgrade.ItemUpgrade;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
+import net.minecraft.inventory.ICrafting;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
@@ -32,6 +33,12 @@ public class ContainerItemRouter extends Container {
     public static final int TE_FIRST_SLOT = 36;
 
     private final TileEntityItemRouter router;
+    private int lastEnergy = -1;
+    private int lastCapacity = -1;
+    private int syncedEnergyLow;
+    private int syncedEnergyHigh;
+    private int syncedCapacityLow;
+    private int syncedCapacityHigh;
 
     public ContainerItemRouter(EntityPlayer player, TileEntityItemRouter router) {
         this(player.inventory, router);
@@ -67,6 +74,50 @@ public class ContainerItemRouter extends Container {
     @Override
     public boolean canInteractWith(EntityPlayer player) {
         return router.isUseableByPlayer(player) && router.isPermitted(player);
+    }
+
+    @Override
+    public void onCraftGuiOpened(ICrafting crafting) {
+        super.onCraftGuiOpened(crafting);
+        sendEnergy(crafting, router.getEnergyStored(net.minecraftforge.common.util.ForgeDirection.UNKNOWN),
+                router.getMaxEnergyStored(net.minecraftforge.common.util.ForgeDirection.UNKNOWN));
+    }
+
+    @Override
+    public void detectAndSendChanges() {
+        super.detectAndSendChanges();
+        int energy = router.getEnergyStored(net.minecraftforge.common.util.ForgeDirection.UNKNOWN);
+        int capacity = router.getMaxEnergyStored(net.minecraftforge.common.util.ForgeDirection.UNKNOWN);
+        if (energy != lastEnergy || capacity != lastCapacity) {
+            for (Object crafter : crafters) sendEnergy((ICrafting) crafter, energy, capacity);
+            lastEnergy = energy;
+            lastCapacity = capacity;
+        }
+    }
+
+    private void sendEnergy(ICrafting crafting, int energy, int capacity) {
+        crafting.sendProgressBarUpdate(this, 0, energy & 0xFFFF);
+        crafting.sendProgressBarUpdate(this, 1, energy >>> 16 & 0xFFFF);
+        crafting.sendProgressBarUpdate(this, 2, capacity & 0xFFFF);
+        crafting.sendProgressBarUpdate(this, 3, capacity >>> 16 & 0xFFFF);
+    }
+
+    @Override
+    public void updateProgressBar(int id, int value) {
+        int word = value & 0xFFFF;
+        switch (id) {
+            case 0: syncedEnergyLow = word; break;
+            case 1: syncedEnergyHigh = word; break;
+            case 2: syncedCapacityLow = word; break;
+            case 3: syncedCapacityHigh = word; break;
+            default: return;
+        }
+        router.setClientEnergy(combineProgressWords(syncedEnergyLow, syncedEnergyHigh),
+                combineProgressWords(syncedCapacityLow, syncedCapacityHigh));
+    }
+
+    static int combineProgressWords(int low, int high) {
+        return (low & 0xFFFF) | (high & 0xFFFF) << 16;
     }
 
     @Override

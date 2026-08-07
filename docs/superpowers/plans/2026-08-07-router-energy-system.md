@@ -290,15 +290,15 @@ Commit message: **feat: implement router energy modules**.
 - Create: **src/main/java/me/desht/modularrouters/gui/widgets/EnergyWidget.java**
 - Create: **src/test/java/me/desht/modularrouters/network/RouterSettingsMessageTest.java**
 
-- [ ] **Step 1: Write failing packet validation and meter-math tests**
+- [x] **Step 1: Write failing packet validation and meter-math tests**
 
 Verify invalid enum bytes decode to NONE, only a permitted player within use range can alter settings, telemetry combines low/high 16-bit values without sign extension, and EnergyWidget calculates zero height at empty and full height at capacity.
 
-- [ ] **Step 2: Run and confirm RED**
+- [x] **Step 2: Run and confirm RED**
 
 Expected: tests fail because direction is not serialized and EnergyWidget is absent.
 
-- [ ] **Step 3: Add 1.7.10 telemetry and controls**
+- [x] **Step 3: Add 1.7.10 telemetry and controls**
 
 ContainerItemRouter implements addCraftingToCrafters and detectAndSendChanges, sending four progress bars for stored/max low and high halves. updateProgressBar reconstructs client values with value and 0xffff. EnergyWidget draws the vertical fill from router.png and shows localized current/max RF tooltip.
 
@@ -308,7 +308,7 @@ Add a three-state textured cycler beside the existing redstone/eco buttons. send
 
 Expected: packet and meter tests pass; in runClient the meter updates without reopening and the direction button cycles all three states without overlapping slots or labels.
 
-- [ ] **Step 5: Update HANDOFF locally, commit, and push**
+- [x] **Step 5: Update HANDOFF locally, commit, and push**
 
 Commit message: **feat: add router energy controls and telemetry**.
 
