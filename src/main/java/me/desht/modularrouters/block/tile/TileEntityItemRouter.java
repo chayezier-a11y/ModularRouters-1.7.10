@@ -1,6 +1,7 @@
 package me.desht.modularrouters.block.tile;
 
 import cofh.api.energy.IEnergyContainerItem;
+import cofh.api.energy.IEnergyHandler;
 import com.google.common.collect.Sets;
 import me.desht.modularrouters.ModularRouters;
 import me.desht.modularrouters.block.BlockItemRouter;
@@ -18,6 +19,8 @@ import me.desht.modularrouters.item.upgrade.ItemUpgrade.UpgradeType;
 import me.desht.modularrouters.item.upgrade.Upgrade;
 import me.desht.modularrouters.logic.RouterRedstoneBehaviour;
 import me.desht.modularrouters.logic.compiled.CompiledModule;
+import me.desht.modularrouters.logic.energy.EnergyTransfer;
+import me.desht.modularrouters.logic.energy.RouterEnergyStorage;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
@@ -37,7 +40,7 @@ import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.*;
 
-public class TileEntityItemRouter extends TileEntity implements ISidedInventory {
+public class TileEntityItemRouter extends TileEntity implements ISidedInventory, IEnergyHandler {
     public static final int N_MODULE_SLOTS = 9;
     public static final int N_UPGRADE_SLOTS = 5;
     public static final int BUFFER_SLOT = 0;
@@ -56,6 +59,8 @@ public class TileEntityItemRouter extends TileEntity implements ISidedInventory 
     private static final String NBT_REDSTONE_MODE = "Redstone";
     private static final String NBT_TICK_RATE = "TickRate";
     private static final String NBT_ITEMS_PER_TICK = "ItemsPerTick";
+    private static final String NBT_ENERGY = "EnergyBuffer";
+    private static final String NBT_ENERGY_DIRECTION = "EnergyDirection";
 
     private int counter = 0;
     private int pulseCounter = 0;
@@ -77,6 +82,9 @@ public class TileEntityItemRouter extends TileEntity implements ISidedInventory 
     private int fluidTransferRate;
     private int fluidTransferRemainingIn = 0;
     private int fluidTransferRemainingOut = 0;
+
+    private final RouterEnergyStorage energyStorage = new RouterEnergyStorage(0, 0);
+    private EnergyDirection energyDirection = EnergyDirection.FROM_ROUTER;
 
     private static final int SIDES = 6;
     private final int[] redstoneLevels = new int[SIDES];
@@ -262,6 +270,81 @@ public class TileEntityItemRouter extends TileEntity implements ISidedInventory 
 
     public int getItemsPerTick() {
         return itemsPerTick;
+    }
+
+    public int getEnergyCapacity() {
+        return energyStorage.getMaxEnergyStored();
+    }
+
+    public int getEnergyXferRate() {
+        return energyStorage.getTransferRate();
+    }
+
+    public RouterEnergyStorage getEnergyStorage() {
+        return energyStorage;
+    }
+
+    public EnergyDirection getEnergyDirection() {
+        return energyDirection;
+    }
+
+    public void setEnergyDirection(EnergyDirection direction) {
+        EnergyDirection newDirection = direction == null ? EnergyDirection.FROM_ROUTER : direction;
+        if (energyDirection != newDirection) {
+            energyDirection = newDirection;
+            markDirty();
+        }
+    }
+
+    @Override
+    public boolean canConnectEnergy(ForgeDirection from) {
+        return energyStorage.getTransferRate() > 0;
+    }
+
+    @Override
+    public int receiveEnergy(ForgeDirection from, int maxReceive, boolean simulate) {
+        if (!canConnectEnergy(from) || !isEnergyOperationAllowed()) return 0;
+        int received = energyStorage.receiveEnergy(maxReceive, simulate);
+        if (received > 0 && !simulate) markDirty();
+        return received;
+    }
+
+    @Override
+    public int extractEnergy(ForgeDirection from, int maxExtract, boolean simulate) {
+        if (!canConnectEnergy(from) || !isEnergyOperationAllowed()) return 0;
+        int extracted = energyStorage.extractEnergy(maxExtract, simulate);
+        if (extracted > 0 && !simulate) markDirty();
+        return extracted;
+    }
+
+    @Override
+    public int getEnergyStored(ForgeDirection from) {
+        return energyStorage.getEnergyStored();
+    }
+
+    @Override
+    public int getMaxEnergyStored(ForgeDirection from) {
+        return energyStorage.getMaxEnergyStored();
+    }
+
+    private boolean isEnergyOperationAllowed() {
+        if (redstoneBehaviour == RouterRedstoneBehaviour.ALWAYS) return true;
+        if (redstoneBehaviour == RouterRedstoneBehaviour.NEVER || worldObj == null) return false;
+        return redstoneBehaviour.shouldRun(getRedstonePower() > 0, false);
+    }
+
+    public enum EnergyDirection {
+        FROM_ROUTER,
+        TO_ROUTER,
+        NONE;
+
+        static EnergyDirection fromName(String name) {
+            try {
+                return valueOf(name);
+            } catch (IllegalArgumentException e) {
+                return FROM_ROUTER;
+            }
+        }
     }
 
         public boolean careAboutItemAttributes() {
@@ -530,6 +613,25 @@ public class TileEntityItemRouter extends TileEntity implements ISidedInventory 
                 ecoCounter--;
             }
         }
+
+        transferBufferEnergy();
+    }
+
+    void transferBufferEnergy() {
+        ItemStack stack = getBufferItemStack();
+        if (stack == null || !(stack.getItem() instanceof IEnergyContainerItem)
+                || getEnergyXferRate() <= 0 || !isEnergyOperationAllowed()) return;
+
+        IEnergyContainerItem item = (IEnergyContainerItem) stack.getItem();
+        int moved = 0;
+        if (energyDirection == EnergyDirection.FROM_ROUTER) {
+            moved = EnergyTransfer.moveToItem(this, ForgeDirection.UP,
+                    item, stack, getEnergyXferRate());
+        } else if (energyDirection == EnergyDirection.TO_ROUTER) {
+            moved = EnergyTransfer.moveFromItem(item, stack,
+                    this, ForgeDirection.UP, getEnergyXferRate());
+        }
+        if (moved > 0) markDirty();
     }
 
     private void executeModules(boolean pulsed) {
@@ -543,7 +645,8 @@ public class TileEntityItemRouter extends TileEntity implements ISidedInventory 
                 Arrays.fill(newSignalType, DetectorModule.SignalType.NONE);
             }
             for (CompiledModule cm : compiledModules) {
-                if (cm != null && cm.hasTarget() && cm.shouldRun(powered, pulsed) && cm.execute(this)) {
+                if (cm != null && cm.hasTarget() && cm.shouldRun(powered, pulsed)
+                        && tryExecuteEnergyModule(cm)) {
                     newActive = true;
                     if (cm.termination() != me.desht.modularrouters.util.ModuleHelper.Termination.NONE) {
                         break;
@@ -557,6 +660,16 @@ public class TileEntityItemRouter extends TileEntity implements ISidedInventory 
         setActive(newActive);
         prevCanEmit = canEmit;
         executing = false;
+    }
+
+    boolean tryExecuteEnergyModule(CompiledModule module) {
+        int cost = Math.max(0, module.getEnergyCost());
+        if (energyStorage.getEnergyStored() < cost || !module.execute(this)) return false;
+        if (cost > 0) {
+            energyStorage.consumeEnergy(cost);
+            markDirty();
+        }
+        return true;
     }
 
     public void checkForRedstonePulse() {
@@ -643,7 +756,7 @@ public class TileEntityItemRouter extends TileEntity implements ISidedInventory 
         }
     }
 
-    private void compileUpgrades() {
+    void compileUpgrades() {
         if ((recompileNeeded & COMPILE_UPGRADES) != 0) {
             Arrays.fill(upgradeCount, 0);
             totalUpgradeCount = 0;
@@ -666,6 +779,9 @@ public class TileEntityItemRouter extends TileEntity implements ISidedInventory 
                     Config.baseTickRate - Config.ticksPerUpgrade * getUpgradeCount(UpgradeType.SPEED));
             fluidTransferRate = Math.min(Config.fluidMaxTransferRate,
                     Config.fluidBaseTransferRate + getUpgradeCount(UpgradeType.FLUID) * Config.mBperFluidUpgrade);
+            energyStorage.configure(
+                    getUpgradeCount(UpgradeType.ENERGY) * Config.fePerEnergyUpgrade,
+                    getUpgradeCount(UpgradeType.ENERGY) * Config.feXferPerEnergyUpgrade);
         }
     }
 
@@ -699,6 +815,8 @@ public class TileEntityItemRouter extends TileEntity implements ISidedInventory 
         }
         active = nbt.getBoolean(NBT_ACTIVE);
         ecoMode = nbt.getBoolean(NBT_ECO_MODE);
+        if (nbt.hasKey(NBT_ENERGY)) energyStorage.readFromNBT(nbt.getCompoundTag(NBT_ENERGY));
+        energyDirection = EnergyDirection.fromName(nbt.getString(NBT_ENERGY_DIRECTION));
 
         NBTTagCompound ext = nbt.getCompoundTag(NBT_EXTRA);
         NBTTagCompound ext1 = getExtData();
@@ -721,6 +839,8 @@ public class TileEntityItemRouter extends TileEntity implements ISidedInventory 
         nbt.setString(NBT_REDSTONE_MODE, redstoneBehaviour.name());
         nbt.setBoolean(NBT_ACTIVE, active);
         nbt.setBoolean(NBT_ECO_MODE, ecoMode);
+        nbt.setTag(NBT_ENERGY, energyStorage.writeToNBT(new NBTTagCompound()));
+        nbt.setString(NBT_ENERGY_DIRECTION, energyDirection.name());
 
         NBTTagCompound ext = new NBTTagCompound();
         NBTTagCompound ext1 = getExtData();

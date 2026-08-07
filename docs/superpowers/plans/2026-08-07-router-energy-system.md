@@ -220,19 +220,19 @@ Commit message: **feat: add transactional RF transfers**.
 - Modify: **src/main/java/me/desht/modularrouters/block/tile/TileEntityItemRouter.java**
 - Create: **src/test/java/me/desht/modularrouters/block/tile/TileEntityItemRouterEnergyTest.java**
 
-- [ ] **Step 1: Write failing router policy tests**
+- [x] **Step 1: Write failing router policy tests**
 
-Test that one energy upgrade configures Config.fePerEnergyUpgrade capacity and Config.feXferPerEnergyUpgrade transfer, FROM_ROUTER permits extraction only, TO_ROUTER permits receive only, NONE permits neither, NBT round-trips direction plus total RF, a module with insufficient RF does not execute, and an RF buffer item is charged or drained according to direction.
+Test that one energy upgrade configures Config.fePerEnergyUpgrade capacity and Config.feXferPerEnergyUpgrade transfer, external CoFH RF input/output remains bidirectional while EnergyDirection controls only the buffer item, NBT round-trips direction plus total RF, a module with insufficient RF does not execute, and an RF buffer item is charged or drained according to direction.
 
 Use a test subclass exposing recompile and one fake CompiledModule whose execute counter proves the insufficient-energy path does not run.
 
-- [ ] **Step 2: Run and confirm RED**
+- [x] **Step 2: Run and confirm RED**
 
 Expected: compilation fails because TileEntityItemRouter does not implement IEnergyHandler and lacks EnergyDirection accessors.
 
-- [ ] **Step 3: Implement IEnergyHandler and energy policy**
+- [x] **Step 3: Implement IEnergyHandler and energy policy**
 
-Add enum values FROM_ROUTER, TO_ROUTER and NONE; a RouterEnergyStorage field; NBT keys EnergyStorage and EnergyDirection; accessors getEnergyStored, getMaxEnergyStored, getEnergyXferRate, getEnergyDirection and setEnergyDirection. canConnectEnergy returns direction is not NONE; receive and extract enforce the selected direction before delegating.
+Add enum values FROM_ROUTER, TO_ROUTER and NONE; a RouterEnergyStorage field; NBT keys EnergyBuffer and EnergyDirection; accessors getEnergyStored, getMaxEnergyStored, getEnergyXferRate, getEnergyDirection and setEnergyDirection. canConnectEnergy requires positive upgrade-provided transfer capacity; receive and extract remain bidirectional like 7.5.4 and delegate only while the router redstone policy allows operation.
 
 During upgrade compilation call:
 
@@ -242,11 +242,11 @@ During upgrade compilation call:
 
 Before executing a compiled module, simulate extraction of getEnergyCost. Execute only if the full cost is available, and commit that cost only after execute returns true. Once per router tick, move RF between an IEnergyContainerItem in the buffer and router storage according to direction and transfer rate. Mark dirty only when RF or direction changes.
 
-- [ ] **Step 4: Verify focused and full tests**
+- [x] **Step 4: Verify focused and full tests**
 
 Expected: direction, capacity, persistence, module-cost and buffer-item tests pass.
 
-- [ ] **Step 5: Update HANDOFF locally, commit, and push**
+- [x] **Step 5: Update HANDOFF locally, commit, and push**
 
 Commit message: **feat: integrate RF storage with item routers**.
 

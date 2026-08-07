@@ -44,6 +44,13 @@ public class RouterEnergyStorage implements IEnergyStorage {
         excess = total - energy;
     }
 
+    public boolean consumeEnergy(int amount) {
+        int requested = nonNegative(amount);
+        if (energy < requested) return false;
+        energy -= requested;
+        return true;
+    }
+
     public RouterEnergyStorage readFromNBT(NBTTagCompound tag) {
         capacity = nonNegative(tag.getInteger(NBT_CAPACITY));
         long loadedEnergy = nonNegative(tag.getInteger(NBT_ENERGY));

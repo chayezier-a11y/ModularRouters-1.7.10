@@ -41,7 +41,7 @@ public abstract class CompiledModule {
      * Base constructor for compiled modules. Can be called for both installed and uninstalled modules;
      * when the module is not installed in a router, null can be passed.
      */
-    CompiledModule(@Nullable TileEntityItemRouter router, ItemStack stack) {
+    protected CompiledModule(@Nullable TileEntityItemRouter router, ItemStack stack) {
         module = ItemModule.getModule(stack);
         if (module == null) {
             throw new IllegalArgumentException("expected module item, got " + stack);
