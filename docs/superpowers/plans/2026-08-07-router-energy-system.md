@@ -259,25 +259,25 @@ Commit message: **feat: integrate RF storage with item routers**.
 - Modify: **src/main/java/me/desht/modularrouters/block/tile/TileEntityItemRouter.java**
 - Create: **src/test/java/me/desht/modularrouters/logic/compiled/CompiledEnergyModuleTest.java**
 
-- [ ] **Step 1: Write failing execution tests**
+- [x] **Step 1: Write failing execution tests**
 
 Cover adjacent output capped by router transfer rate; distributor splitting stored RF by valid target count; wrong-dimension, squared-range, unloaded-chunk and non-IEnergyHandler rejection; successful transfer returning true; zero transfer returning false; and two muffler upgrades suppressing beams while one allows color 0xE04040.
 
-- [ ] **Step 2: Run and confirm RED**
+- [x] **Step 2: Run and confirm RED**
 
 Expected: tests fail because both execute methods return false.
 
-- [ ] **Step 3: Implement module execution**
+- [x] **Step 3: Implement module execution**
 
 Energy Output resolves the target TileEntity without loading chunks, verifies IEnergyReceiver and side connectivity, then calls EnergyTransfer.move with router.getEnergyXferRate.
 
 Energy Distributor filters getTargets by dimension, loaded chunk and distance squared. Divide current visible RF by the number of valid targets, cap each move by router transfer rate, and transfer in deterministic target-list order. On positive transfer, send ParticleBeamMessage from router center to target center to nearby players unless muffler count is at least two. Return true only when total sent is positive.
 
-- [ ] **Step 4: Verify focused and full tests**
+- [x] **Step 4: Verify focused and full tests**
 
 Expected: transfer totals and validation tests pass, and all module regressions remain green.
 
-- [ ] **Step 5: Update HANDOFF locally, commit, and push**
+- [x] **Step 5: Update HANDOFF locally, commit, and push**
 
 Commit message: **feat: implement router energy modules**.
 
