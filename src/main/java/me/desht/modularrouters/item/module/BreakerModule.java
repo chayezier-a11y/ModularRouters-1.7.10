@@ -23,11 +23,6 @@ public class BreakerModule extends Module implements IPickaxeUser {
     public IRecipe getRecipe() { return null; }
 
     @Override
-    public ItemStack getPickaxe(ItemStack moduleStack) {
-        return null;
-    }
-
-    @Override
     @SideOnly(Side.CLIENT)
     public void addExtraInformation(ItemStack stack, EntityPlayer player, List<String> list, boolean par4) {
         super.addExtraInformation(stack, player, list, par4);

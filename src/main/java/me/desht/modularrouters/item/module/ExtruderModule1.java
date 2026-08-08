@@ -30,9 +30,6 @@ public class ExtruderModule1 extends Module implements IRangedModule, IPickaxeUs
     public int getHardMaxRange() { return Config.extruderMaxRange; }
 
     @Override
-    public ItemStack getPickaxe(ItemStack moduleStack) { return null; }
-
-    @Override
     @SideOnly(Side.CLIENT)
     public void addExtraInformation(ItemStack stack, EntityPlayer player, List<String> list, boolean par4) {
         super.addExtraInformation(stack, player, list, par4);
