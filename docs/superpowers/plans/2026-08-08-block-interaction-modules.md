@@ -54,9 +54,9 @@
 - Modify: `src/main/java/me/desht/modularrouters/util/fake_player/RouterFakePlayer.java`
 - Modify: `src/test/java/me/desht/modularrouters/logic/compiled/CompiledActivatorModuleTest.java`
 
-- [ ] **Step 1: Add failing tests** for empty-hand right-click eligibility, block-first/item-fallback use order, failed-use buffer preservation, consumed/container items, extra fake-player inventory drops, nearest/random/round-robin entity selection, and legacy action NBT fallback.
-- [ ] **Step 2: Run focused tests** and confirm empty-hand and failure-transaction cases fail.
-- [ ] **Step 3: Reuse one router fake player**, set position/look/sneak state, execute block/item/entity action, commit the held stack only on success, and eject extra inventory items at the target face.
+- [x] **Step 1: Add failing tests** for empty-hand right-click eligibility, block-first/item-fallback use order, failed-use buffer preservation, consumed/container items, extra fake-player inventory drops, nearest/random/round-robin entity selection, and legacy action NBT fallback.
+- [x] **Step 2: Run focused tests** and confirm empty-hand and failure-transaction cases fail.
+- [x] **Step 3: Reuse one router fake player**, set position/look/sneak state, execute block/item/entity action, commit the held stack only on success, and eject extra inventory items at the target face.
 - [ ] **Step 4: Run focused/full tests**, update `HANDOFF.md`, commit, and push.
 
 ### Task 5: Detector

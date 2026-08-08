@@ -3,10 +3,11 @@ package me.desht.modularrouters.logic.compiled;
 import me.desht.modularrouters.block.tile.TileEntityItemRouter;
 import me.desht.modularrouters.item.module.Module;
 import me.desht.modularrouters.util.ModuleHelper;
-import me.desht.modularrouters.util.ModularRoutersFakePlayer;
+import me.desht.modularrouters.util.fake_player.RouterFakePlayer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
+import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
@@ -66,10 +67,9 @@ public class CompiledActivatorModule extends CompiledModule {
 
     @Override
     public boolean execute(TileEntityItemRouter router) {
-        if (router.isBufferEmpty()) return false;
-
         ItemStack toUse = router.peekBuffer(1);
-        if (toUse == null || getFilter().rejectItem(toUse)) return false;
+        if (toUse != null && getFilter().rejectItem(toUse)) toUse = null;
+        if (requiresHeldItem(actionType) && toUse == null) return false;
 
         ForgeDirection facing = getAbsoluteDirection(router);
 
@@ -85,26 +85,21 @@ public class CompiledActivatorModule extends CompiledModule {
         int y = router.yCoord + facing.offsetY;
         int z = router.zCoord + facing.offsetZ;
 
-        ItemStack stack = router.extractBuffer(1);
-        if (stack == null) return false;
+        ItemStack original = router.peekBuffer(1);
+        ItemStack held = original == null ? null : original.copy();
+        if (held != null) held.stackSize = 1;
+        RouterFakePlayer fakePlayer = new RouterFakePlayer(router);
+        fakePlayer.prepare(held, sneaking);
 
-        ModularRoutersFakePlayer fakePlayer = new ModularRoutersFakePlayer(router.getWorldObj());
-        fakePlayer.setPosition(router.xCoord + 0.5, router.yCoord + 0.5, router.zCoord + 0.5);
-        fakePlayer.setSneaking(sneaking);
-        fakePlayer.setCurrentItemOrArmor(0, stack.copy());
-
-        // Try to use item on block in front
-        boolean used = stack.getItem().onItemUse(stack, fakePlayer, router.getWorldObj(),
-                x, y, z, facing.getOpposite().ordinal(),
-                0.5f, 0.5f, 0.5f);
-
-        // Retrieve remaining items from fake player
-        ItemStack remaining = fakePlayer.getCurrentEquippedItem();
-        if (remaining != null && remaining.stackSize > 0) {
-            router.insertBuffer(remaining);
+        Block block = router.getWorldObj().getBlock(x, y, z);
+        int side = facing.getOpposite().ordinal();
+        boolean used = block != null && block.onBlockActivated(router.getWorldObj(), x, y, z,
+                fakePlayer, side, 0.5f, 0.5f, 0.5f);
+        if (!used && held != null) {
+            used = held.getItem().onItemUse(fakePlayer.getCurrentEquippedItem(), fakePlayer,
+                    router.getWorldObj(), x, y, z, side, 0.5f, 0.5f, 0.5f);
         }
-
-        return used;
+        return used && commitAction(router, original, fakePlayer, x, y, z);
     }
 
     @SuppressWarnings("unchecked")
@@ -126,8 +121,9 @@ public class CompiledActivatorModule extends CompiledModule {
                 target = entities.get(router.getWorldObj().rand.nextInt(entities.size()));
                 break;
             case ROUND_ROBIN:
-                entityIdx = (entityIdx + 1) % entities.size();
-                target = entities.get(entityIdx);
+                int selected = nextRoundRobinIndex(entityIdx, entities.size());
+                entityIdx = selected + 1;
+                target = entities.get(selected);
                 break;
             case NEAREST:
             default:
@@ -141,39 +137,45 @@ public class CompiledActivatorModule extends CompiledModule {
 
         if (target == null) return false;
 
+        ItemStack original = router.peekBuffer(1);
+        ItemStack held = original == null ? null : original.copy();
+        if (held != null) held.stackSize = 1;
+        RouterFakePlayer fakePlayer = new RouterFakePlayer(router);
+        fakePlayer.prepare(held, sneaking);
+        boolean result;
         if (actionType == ActionType.ATTACK_ENTITY) {
-            ItemStack weapon = router.extractBuffer(1);
-            if (weapon == null) return false;
-
-            ModularRoutersFakePlayer fakePlayer = new ModularRoutersFakePlayer(router.getWorldObj());
-            fakePlayer.setPosition(router.xCoord + 0.5, router.yCoord + 0.5, router.zCoord + 0.5);
-            fakePlayer.setSneaking(sneaking);
-            fakePlayer.setCurrentItemOrArmor(0, weapon);
-
             fakePlayer.attackTargetEntityWithCurrentItem(target);
-
-            ItemStack remaining = fakePlayer.getCurrentEquippedItem();
-            if (remaining != null && remaining.stackSize > 0) {
-                router.insertBuffer(remaining);
-            }
-            return true;
+            result = true;
         } else {
-            // USE_ITEM_ON_ENTITY
-            ItemStack stack = router.extractBuffer(1);
-            if (stack == null) return false;
-
-            ModularRoutersFakePlayer fakePlayer = new ModularRoutersFakePlayer(router.getWorldObj());
-            fakePlayer.setPosition(router.xCoord + 0.5, router.yCoord + 0.5, router.zCoord + 0.5);
-            fakePlayer.setSneaking(sneaking);
-            fakePlayer.setCurrentItemOrArmor(0, stack);
-
-            boolean result = target.interactFirst(fakePlayer);
-
-            ItemStack remaining = fakePlayer.getCurrentEquippedItem();
-            if (remaining != null && remaining.stackSize > 0) {
-                router.insertBuffer(remaining);
-            }
-            return result;
+            result = target.interactFirst(fakePlayer);
         }
+        return result && commitAction(router, original, fakePlayer,
+                router.xCoord + facing.offsetX, router.yCoord + facing.offsetY,
+                router.zCoord + facing.offsetZ);
+    }
+
+    private boolean commitAction(TileEntityItemRouter router, ItemStack original,
+                                  RouterFakePlayer fakePlayer, int x, int y, int z) {
+        if (original != null) router.extractBuffer(1);
+        ItemStack remaining = fakePlayer.getCurrentEquippedItem();
+        if (remaining != null && remaining.stackSize > 0) router.insertBuffer(remaining.copy());
+        for (int i = 0; i < fakePlayer.inventory.getSizeInventory(); i++) {
+            ItemStack extra = fakePlayer.inventory.getStackInSlot(i);
+            if (extra == null || extra == remaining) continue;
+            EntityItem entity = new EntityItem(router.getWorldObj(), x + 0.5, y + 0.5, z + 0.5,
+                    extra.copy());
+            router.getWorldObj().spawnEntityInWorld(entity);
+            fakePlayer.inventory.setInventorySlotContents(i, null);
+        }
+        return true;
+    }
+
+    public static boolean requiresHeldItem(ActionType actionType) {
+        return actionType == ActionType.USE_ITEM_ON_ENTITY;
+    }
+
+    public static int nextRoundRobinIndex(int current, int size) {
+        if (size <= 0) return 0;
+        return current >= 0 ? current % size : 0;
     }
 }

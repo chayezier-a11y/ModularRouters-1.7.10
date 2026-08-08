@@ -29,4 +29,10 @@ public class RouterFakePlayer extends FakePlayer {
     public TileEntityItemRouter getRouter() {
         return router;
     }
+
+    public void prepare(ItemStack held, boolean sneaking) {
+        setPosition(router.xCoord + 0.5, router.yCoord + 0.5, router.zCoord + 0.5);
+        setSneaking(sneaking);
+        setCurrentItemOrArmor(0, held);
+    }
 }
