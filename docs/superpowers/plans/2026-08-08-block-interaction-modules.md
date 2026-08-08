@@ -29,10 +29,10 @@
 - Create: `src/main/java/me/desht/modularrouters/logic/BlockInteraction.java`
 - Create: `src/test/java/me/desht/modularrouters/logic/BlockInteractionTest.java`
 
-- [ ] **Step 1: Write failing tests** for replaceability, collision rejection, `ItemBlock.placeBlockAt()` success/failure, unbreakable blocks, harvest-level checks, Fortune/Silk Touch drops, filter-by-block/filter-by-drop, and overflow entity rollback.
-- [ ] **Step 2: Run** the focused test and require failures from the absent helper APIs.
-- [ ] **Step 3: Implement** `tryPlace()` and `tryBreak()` using a router-scoped Forge fake player; return structured results and leave inventory/world mutation to explicit commit methods.
-- [ ] **Step 4: Verify** focused and complete tests before any module consumes the helper.
+- [x] **Step 1: Write failing tests** for replaceability, collision rejection, `ItemBlock.placeBlockAt()` success/failure, unbreakable blocks, harvest-level checks, Fortune/Silk Touch drops, filter-by-block/filter-by-drop, and overflow entity rollback.
+- [x] **Step 2: Run** the focused test and require failures from the absent helper APIs.
+- [x] **Step 3: Implement** `tryPlace()` and `tryBreak()` using a router-scoped Forge fake player; return structured results and leave inventory/world mutation to explicit commit methods.
+- [x] **Step 4: Verify** focused and complete tests before any module consumes the helper.
 
 ### Task 3: Breaker And Placer
 
