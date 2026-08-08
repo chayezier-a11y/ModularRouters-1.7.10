@@ -64,6 +64,26 @@ public class TargetedModuleTest {
         assertTrue(TargetedModule.getTargets(stack).isEmpty());
     }
 
+    @Test
+    public void multiTargetChangesDistinguishAddRemoveAndFull() {
+        ItemStack stack = distributor();
+        ModuleTarget first = new ModuleTarget(0, 1, 2, 3, ForgeDirection.NORTH, "first");
+
+        assertEquals(TargetedModule.TargetChange.ADDED,
+                TargetedModule.changeTarget(stack, first, 2));
+        assertEquals(TargetedModule.TargetChange.REMOVED,
+                TargetedModule.changeTarget(stack, first, 2));
+        assertEquals(TargetedModule.TargetChange.ADDED,
+                TargetedModule.changeTarget(stack, first, 2));
+        assertEquals(TargetedModule.TargetChange.ADDED,
+                TargetedModule.changeTarget(stack,
+                        new ModuleTarget(0, 4, 5, 6, ForgeDirection.SOUTH, "second"), 2));
+        assertEquals(TargetedModule.TargetChange.FULL,
+                TargetedModule.changeTarget(stack,
+                        new ModuleTarget(0, 7, 8, 9, ForgeDirection.UP, "third"), 2));
+        assertEquals(2, TargetedModule.getTargets(stack).size());
+    }
+
     private static ItemStack distributor() {
         return new ItemStack(new ItemModule(), 1, ItemModule.ModuleType.ENERGY_DISTRIBUTOR.ordinal());
     }

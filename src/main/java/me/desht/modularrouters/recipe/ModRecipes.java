@@ -78,8 +78,8 @@ public class ModRecipes {
         module(ModuleType.ACTIVATOR, Items.iron_sword);
         module(ModuleType.DISTRIBUTOR, Items.diamond, Items.ender_pearl);
         GameRegistry.addRecipe(new ShapelessOreRecipe(module(ModuleType.CREATIVE), module(ModuleType.SENDER3), Items.nether_star));
-        module(ModuleType.ENERGY_DISTRIBUTOR, Items.redstone, Items.glowstone_dust);
-        module(ModuleType.ENERGY_OUTPUT, Blocks.redstone_block);
+        GameRegistry.addRecipe(energyOutputRecipe());
+        GameRegistry.addRecipe(energyDistributorRecipe());
         GameRegistry.addRecipe(new ShapelessOreRecipe(module(ModuleType.FLUID2), module(ModuleType.FLUID1), Items.diamond));
     }
 
@@ -92,7 +92,7 @@ public class ModRecipes {
         upgrade(UpgradeType.FLUID, Items.bucket);
         upgrade(UpgradeType.MUFFLER, Blocks.wool);
         upgrade(UpgradeType.BLAST, Blocks.obsidian);
-        upgrade(UpgradeType.ENERGY, Blocks.redstone_block);
+        GameRegistry.addRecipe(energyUpgradeRecipe());
     }
 
     private static void addFilterRecipes() {
@@ -141,6 +141,54 @@ public class ModRecipes {
 
     private static ItemStack upgrade(UpgradeType type) {
         return ItemUpgrade.makeItemStack(type, 1);
+    }
+
+    static ShapedOreRecipe energyOutputRecipe() {
+        return new ShapedOreRecipe(energyOutputResult(), energyOutputDefinition());
+    }
+
+    static ItemStack energyOutputResult() {
+        return module(ModuleType.ENERGY_OUTPUT);
+    }
+
+    static Object[] energyOutputDefinition() {
+        return new Object[] {
+                " R ", "GBG", " Q ",
+                'R', "blockRedstone",
+                'G', "ingotGold",
+                'B', ModItems.blankModule,
+                'Q', "gemQuartz"
+        };
+    }
+
+    static ShapelessOreRecipe energyDistributorRecipe() {
+        return new ShapelessOreRecipe(energyDistributorResult(), (Object[]) energyDistributorIngredients());
+    }
+
+    static ItemStack energyDistributorResult() {
+        return module(ModuleType.ENERGY_DISTRIBUTOR);
+    }
+
+    static ItemStack[] energyDistributorIngredients() {
+        return new ItemStack[] { module(ModuleType.ENERGY_OUTPUT), module(ModuleType.DISTRIBUTOR) };
+    }
+
+    static ShapedOreRecipe energyUpgradeRecipe() {
+        return new ShapedOreRecipe(energyUpgradeResult(), energyUpgradeDefinition());
+    }
+
+    static ItemStack energyUpgradeResult() {
+        return upgrade(UpgradeType.ENERGY);
+    }
+
+    static Object[] energyUpgradeDefinition() {
+        return new Object[] {
+                "QRQ", " B ", "QGQ",
+                'Q', "gemQuartz",
+                'R', "blockRedstone",
+                'B', ModItems.blankUpgrade,
+                'G', "ingotGold"
+        };
     }
 
     private static void filter(FilterType type, Object ingredient) {

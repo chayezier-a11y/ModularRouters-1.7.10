@@ -55,6 +55,11 @@ guiText.tooltip.redstone.HIGH=有红石信号时工作
 guiText.tooltip.redstone.LOW=无红石信号时工作
 guiText.tooltip.redstone.NEVER=从不工作
 guiText.tooltip.redstone.PULSE=红石脉冲
+guiText.tooltip.energy.stored=已存储：%d / %d RF
+guiText.tooltip.energy.from_router=将能量从路由器缓冲区传输到物品
+guiText.tooltip.energy.to_router=将能量从物品传输到路由器缓冲区
+guiText.tooltip.energy.none=不传输能量
+guiText.tooltip.energy.rate=最大传输率：%s RF/t
 guiText.label.installed=（已安装）
 
 # Direction
@@ -81,6 +86,13 @@ itemText.target.bound=已绑定：%d, %d, %d
 itemText.target.notBound=未绑定目标（潜行+右键容器）
 chatText.target.bound=目标已绑定：%d, %d, %d
 chatText.target.cleared=目标已清除
+chatText.misc.targetAdded=目标已添加（%d/%d）：%d, %d, %d
+chatText.misc.targetRemoved=目标已移除（%d/%d）：%d, %d, %d
+chatText.misc.tooManyTargets=目标过多！（最大：%d）
+chatText.targetValidation.WRONG_DIMENSION=目标位于其他维度
+chatText.targetValidation.OUT_OF_RANGE=目标超出范围
+chatText.targetValidation.NOT_LOADED=目标区块未加载
+chatText.targetValidation.NOT_ENERGY=目标无法接收 RF
 
 # Misc
 itemText.misc.routerConfigured=已配置
@@ -274,7 +286,7 @@ itemText.misc.IGNORE_NBT=NBT 数据
 itemText.misc.IGNORE_TAGS=标签
 itemText.misc.rangeInfo=范围：%s%d §7[基础 %d，最大 %d]
 itemText.misc.breakerPick=镐：
-itemText.misc.energyUsage=能量消耗：%d FE / 操作
+itemText.misc.energyUsage=能量消耗：%d RF / 操作
 itemText.misc.flingerDetails=速度：%f | 上下偏转：%f | 左右偏转：%f
 itemText.misc.operation=操作
 itemText.misc.regulator.amount=%d 个物品
@@ -301,5 +313,5 @@ itemText.usage.item.fluid2Module=在附近方块与路由器之间传输流体�
 itemText.usage.item.activatorModule=使用路由器缓冲区中的物品模拟右键方块或实体，表现得像一个假玩家。
 itemText.usage.item.distributorModule=将路由器缓冲区中的物品分配给多个容器，可选择轮询、随机、最近优先或最远优先。
 itemText.usage.item.creativeModule=凭空创造物品并将其放入路由器缓冲区。
-itemText.usage.item.energy_distributorModule=将路由器或缓冲区能量物品中的 FE 分配给附近的能量方块。
-itemText.usage.item.energy_outputModule=将路由器或缓冲区能量物品中的 FE 推送到模块目标。
+itemText.usage.item.energy_distributorModule=将路由器或缓冲区能量物品中的 RF 分配给附近的能量方块。
+itemText.usage.item.energy_outputModule=将路由器或缓冲区能量物品中的 RF 推送到模块目标。

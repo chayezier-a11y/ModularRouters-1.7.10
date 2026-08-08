@@ -304,7 +304,7 @@ ContainerItemRouter implements addCraftingToCrafters and detectAndSendChanges, s
 
 Add a three-state textured cycler beside the existing redstone/eco buttons. sendRouterSettings copies all three current controls before sending. RouterSettingsMessage writes one direction byte, bounds-checks both enum bytes, and keeps the existing permission plus distance validation in Handler.
 
-- [ ] **Step 4: Verify tests and launch the GUI**
+- [x] **Step 4: Verify tests and launch the GUI**
 
 Expected: packet and meter tests pass; in runClient the meter updates without reopening and the direction button cycles all three states without overlapping slots or labels.
 
@@ -320,26 +320,26 @@ Commit message: **feat: add router energy controls and telemetry**.
 - Modify: **src/main/resources/assets/modularrouters/lang/zh_CN.lang**
 - Create: **src/test/java/me/desht/modularrouters/recipe/EnergyRecipeTest.java**
 
-- [ ] **Step 1: Write failing recipe assertions**
+- [x] **Step 1: Write failing recipe assertions**
 
 Assert Energy Output uses rows space-R-space, G-B-G, space-Q-space; Energy Distributor is shapeless Energy Output plus Distributor; and Energy Upgrade uses Q-R-Q, space-B-space, Q-G-Q. Resolve R as redstone, G as gold ingot, B as blank module and Q as quartz.
 
-- [ ] **Step 2: Run and confirm RED**
+- [x] **Step 2: Run and confirm RED**
 
 Expected: recipe assertions fail because energy recipes are absent or return null.
 
-- [ ] **Step 3: Register recipes and language keys**
+- [x] **Step 3: Register recipes and language keys**
 
 Register the three 7.5.4 recipes and add English/Chinese strings for RF stored, RF capacity, FROM_ROUTER, TO_ROUTER, NONE, target added/removed/full, wrong dimension, out of range and unloaded target. Keep FE wording only in config keys whose names are part of compatibility.
 
-- [ ] **Step 4: Run final automated verification**
+- [x] **Step 4: Run final automated verification**
 
     $env:JAVA_HOME = "C:\Program Files\Zulu\zulu-8"
     & "C:\Users\chaye\.gradle\wrapper\dists\gradle-2.14.1-bin\2r579t5wehc7ew5kc8vfqezww\gradle-2.14.1\bin\gradle.bat" -I .\gradle\fix-minecraft-download.gradle clean test build
 
 Expected: BUILD SUCCESSFUL and a rebuilt jar under build/libs.
 
-- [ ] **Step 5: Launch and manually verify**
+- [x] **Step 5: Launch and manually verify**
 
 Run runClient with JDK 8. Verify a router with energy upgrades receives and emits RF according to direction; removing and restoring upgrades preserves total RF; Energy Output powers one adjacent receiver; Energy Distributor binds at most eight same-dimension targets, skips unloaded or distant targets, divides output, and renders red beams unless muffled.
 

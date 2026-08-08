@@ -16,6 +16,12 @@ import java.util.List;
 import java.util.Set;
 
 public abstract class TargetedModule extends Module {
+    enum TargetChange {
+        ADDED,
+        REMOVED,
+        FULL
+    }
+
     private static final String NBT_TARGET_X = "TargetX";
     private static final String NBT_TARGET_Y = "TargetY";
     private static final String NBT_TARGET_Z = "TargetZ";
@@ -47,11 +53,21 @@ public abstract class TargetedModule extends Module {
                 String name = world.getBlock(x, y, z).getLocalizedName();
                 if (getMaxTargets() == 1) {
                     bindTarget(stack, x, y, z, world.provider.dimensionId, face, name);
+                    MiscUtil.sendStatusMessage(player, "chatText.target.bound", x, y, z);
                 } else {
-                    toggleTarget(stack, new ModuleTarget(world.provider.dimensionId,
+                    TargetChange change = changeTarget(stack, new ModuleTarget(world.provider.dimensionId,
                             x, y, z, face, name), getMaxTargets());
+                    int count = getTargets(stack).size();
+                    if (change == TargetChange.ADDED) {
+                        MiscUtil.sendStatusMessage(player, "chatText.misc.targetAdded",
+                                count, getMaxTargets(), x, y, z);
+                    } else if (change == TargetChange.REMOVED) {
+                        MiscUtil.sendStatusMessage(player, "chatText.misc.targetRemoved",
+                                count, getMaxTargets(), x, y, z);
+                    } else {
+                        MiscUtil.sendStatusMessage(player, "chatText.misc.tooManyTargets", getMaxTargets());
+                    }
                 }
-                MiscUtil.sendStatusMessage(player, "chatText.target.bound", x, y, z);
             }
             return true;
         }
@@ -142,15 +158,19 @@ public abstract class TargetedModule extends Module {
     }
 
     public static boolean toggleTarget(ItemStack stack, ModuleTarget target, int maximum) {
+        return changeTarget(stack, target, maximum) == TargetChange.ADDED;
+    }
+
+    static TargetChange changeTarget(ItemStack stack, ModuleTarget target, int maximum) {
         Set<ModuleTarget> targets = getTargets(stack);
         if (targets.remove(target)) {
             setTargets(stack, targets);
-            return false;
+            return TargetChange.REMOVED;
         }
-        if (target == null || targets.size() >= maximum) return false;
+        if (target == null || targets.size() >= maximum) return TargetChange.FULL;
         targets.add(target);
         setTargets(stack, targets);
-        return true;
+        return TargetChange.ADDED;
     }
 
     public static boolean hasTarget(ItemStack stack) {
