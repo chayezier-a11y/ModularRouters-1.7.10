@@ -5,6 +5,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
+import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public final class BlockInteraction {
@@ -21,6 +22,19 @@ public final class BlockInteraction {
 
     public static boolean canBreak(Block block, World world, int x, int y, int z) {
         return block != null && block.getBlockHardness(world, x, y, z) >= 0.0f;
+    }
+
+    public static boolean canBreak(Block block, World world, int x, int y, int z,
+                                   EntityPlayer player, ItemStack tool) {
+        return canBreak(block, world, x, y, z) && player != null && tool != null
+                && ForgeHooks.canHarvestBlock(block, player, world.getBlockMetadata(x, y, z));
+    }
+
+    public static boolean breakBlock(Block block, World world, int x, int y, int z,
+                                     EntityPlayer player, ItemStack tool) {
+        player.setCurrentItemOrArmor(0, tool);
+        if (!canBreak(block, world, x, y, z, player, tool)) return false;
+        return block.removedByPlayer(world, player, x, y, z, true);
     }
 
     public static boolean place(ItemBlock itemBlock, ItemStack stack, EntityPlayer player,

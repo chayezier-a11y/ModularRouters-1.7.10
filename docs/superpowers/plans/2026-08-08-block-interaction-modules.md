@@ -42,9 +42,9 @@
 - Modify: `src/test/java/me/desht/modularrouters/logic/compiled/CompiledBreakerModuleTest.java`
 - Create: `src/test/java/me/desht/modularrouters/logic/compiled/CompiledPlacerModuleTest.java`
 
-- [ ] **Step 1: Add failing tests** for stored-pickaxe drops, harvest denial, ITEM/BLOCK matching, successful-placement-only extraction, tile/orientation placement callbacks, and one-Muffler/config effect suppression.
-- [ ] **Step 2: Run focused tests** and confirm direct `getDrops()`/`setBlock()` behavior fails the callback and rollback cases.
-- [ ] **Step 3: Route both modules through** `BlockInteraction`; preserve router regulator/filter rules and emit break/place effects only after success.
+- [x] **Step 1: Add failing tests** for stored-pickaxe drops, harvest denial, ITEM/BLOCK matching, successful-placement-only extraction, tile/orientation placement callbacks, and one-Muffler/config effect suppression.
+- [x] **Step 2: Run focused tests** and confirm direct `getDrops()`/`setBlock()` behavior fails the callback and rollback cases.
+- [x] **Step 3: Route both modules through** `BlockInteraction`; preserve router regulator/filter rules and emit break/place effects only after success.
 - [ ] **Step 4: Run focused/full tests**, update `HANDOFF.md`, commit, and push.
 
 ### Task 4: Activator

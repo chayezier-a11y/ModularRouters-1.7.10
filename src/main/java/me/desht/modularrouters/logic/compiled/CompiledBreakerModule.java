@@ -2,6 +2,9 @@ package me.desht.modularrouters.logic.compiled;
 
 import me.desht.modularrouters.block.tile.TileEntityItemRouter;
 import me.desht.modularrouters.util.ModuleHelper;
+import me.desht.modularrouters.item.module.IPickaxeUser;
+import me.desht.modularrouters.util.fake_player.RouterFakePlayer;
+import me.desht.modularrouters.logic.BlockInteraction;
 import net.minecraft.block.Block;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -19,6 +22,7 @@ public class CompiledBreakerModule extends CompiledModule {
     public static final String NBT_MATCH_TYPE = "MatchType";
     public enum MatchType { ITEM, BLOCK }
     private final MatchType matchType;
+    private final ItemStack pickaxe;
 
     public CompiledBreakerModule(TileEntityItemRouter router, ItemStack stack) {
         super(router, stack);
@@ -26,6 +30,7 @@ public class CompiledBreakerModule extends CompiledModule {
         int ordinal = tag.getByte(NBT_MATCH_TYPE);
         matchType = ordinal >= 0 && ordinal < MatchType.values().length
                 ? MatchType.values()[ordinal] : MatchType.ITEM;
+        pickaxe = stack == null ? null : ((IPickaxeUser) getModule()).getPickaxe(stack).copy();
     }
 
     @Override
@@ -44,6 +49,7 @@ public class CompiledBreakerModule extends CompiledModule {
                 return false;
             }
 
+            RouterFakePlayer fakePlayer = new RouterFakePlayer(router);
             int meta = world.getBlockMetadata(x, y, z);
 
             if (!getFilter().isMatcherListEmpty()) {
@@ -61,16 +67,22 @@ public class CompiledBreakerModule extends CompiledModule {
                 }
             }
 
-            // Get drops with possible fortune from pickaxe in buffer
+            if (ConfiguredHarvestLevel.isEnabled() && !canHarvest(block, meta, pickaxe)) {
+                return false;
+            }
+
+            // Get drops with possible fortune from the configured pickaxe.
             int fortune = 0;
-            ItemStack bufferStack = router.getBufferItemStack();
-            if (bufferStack != null) {
-                fortune = EnchantmentHelper.getEnchantmentLevel(Enchantment.fortune.effectId, bufferStack);
+            if (pickaxe != null) {
+                fortune = EnchantmentHelper.getEnchantmentLevel(Enchantment.fortune.effectId, pickaxe);
             }
 
             ArrayList<ItemStack> drops = block.getDrops(world, x, y, z, meta, fortune);
 
-            world.setBlockToAir(x, y, z);
+            fakePlayer.setPosition(router.xCoord + 0.5, router.yCoord + 0.5, router.zCoord + 0.5);
+            if (!BlockInteraction.breakBlock(block, world, x, y, z, fakePlayer, pickaxe.copy())) {
+                return false;
+            }
             world.playAuxSFX(2001, x, y, z, Block.getIdFromBlock(block) + (meta << 12));
 
             for (ItemStack drop : drops) {
@@ -81,10 +93,33 @@ public class CompiledBreakerModule extends CompiledModule {
                 }
             }
 
+            playParticles(router, x, y, z);
             return true;
         }
         return false;
     }
 
     public MatchType getMatchType() { return matchType; }
+
+    public static boolean canHarvest(Block block, int metadata, ItemStack tool) {
+        if (block == null || tool == null) return false;
+        String harvestTool = block.getHarvestTool(metadata);
+        return harvestTool == null || canHarvest(block.getHarvestLevel(metadata), harvestTool, tool);
+    }
+
+    public static boolean canHarvest(int requiredLevel, String harvestTool, ItemStack tool) {
+        return tool != null && tool.getItem() != null
+                && (harvestTool == null
+                || tool.getItem().getHarvestLevel(tool, harvestTool) >= requiredLevel);
+    }
+
+    protected void playParticles(TileEntityItemRouter router, int x, int y, int z) {
+        // The block break effect is already broadcast by the world; the optional beam is cosmetic.
+    }
+
+    private static final class ConfiguredHarvestLevel {
+        private static boolean isEnabled() {
+            return me.desht.modularrouters.config.Config.breakerHarvestLevelLimit;
+        }
+    }
 }
