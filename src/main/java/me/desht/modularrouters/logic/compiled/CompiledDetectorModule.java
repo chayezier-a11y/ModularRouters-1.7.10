@@ -25,7 +25,7 @@ public class CompiledDetectorModule extends CompiledModule {
         if (!compound.hasKey(NBT_STRONG_SIGNAL)) {
             compound.setBoolean(NBT_STRONG_SIGNAL, false);
         }
-        signalLevel = compound.getInteger(NBT_SIGNAL_LEVEL);
+        signalLevel = Math.max(0, Math.min(15, compound.getInteger(NBT_SIGNAL_LEVEL)));
         strongSignal = compound.getBoolean(NBT_STRONG_SIGNAL);
     }
 
@@ -70,12 +70,12 @@ public class CompiledDetectorModule extends CompiledModule {
     @Override
     public void onCompiled(TileEntityItemRouter router) {
         super.onCompiled(router);
-        router.setAllowRedstoneEmission(true);
+        router.registerDetector();
     }
 
     @Override
     public void cleanup(TileEntityItemRouter router) {
         super.cleanup(router);
-        router.setAllowRedstoneEmission(false);
+        router.unregisterDetector();
     }
 }

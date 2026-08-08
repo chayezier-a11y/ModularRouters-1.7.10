@@ -92,6 +92,7 @@ public class TileEntityItemRouter extends TileEntity implements ISidedInventory,
     private final DetectorModule.SignalType[] signalType = new DetectorModule.SignalType[SIDES];
     private final DetectorModule.SignalType[] newSignalType = new DetectorModule.SignalType[SIDES];
     private boolean canEmit, prevCanEmit;
+    private int detectorCount;
 
     private final Map<UUID, Pair<Integer, Integer>> playerToSlot = new HashMap<UUID, Pair<Integer, Integer>>();
 
@@ -510,7 +511,17 @@ public class TileEntityItemRouter extends TileEntity implements ISidedInventory,
     // ---- Redstone emission ----
 
     public void setAllowRedstoneEmission(boolean allow) {
-        canEmit = allow;
+        canEmit = allow || detectorCount > 0;
+    }
+
+    public void registerDetector() {
+        detectorCount++;
+        canEmit = true;
+    }
+
+    public void unregisterDetector() {
+        detectorCount = Math.max(0, detectorCount - 1);
+        canEmit = detectorCount > 0;
     }
 
     public void emitRedstone(Module.RelativeDirection direction, int power, DetectorModule.SignalType signalType) {

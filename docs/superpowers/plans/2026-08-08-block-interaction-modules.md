@@ -65,9 +65,9 @@
 - Modify: `src/main/java/me/desht/modularrouters/logic/compiled/CompiledDetectorModule.java`
 - Create: `src/test/java/me/desht/modularrouters/logic/compiled/CompiledDetectorModuleTest.java`
 
-- [ ] **Step 1: Write failing tests** for defaults, invalid NBT fallback, signal clamping `0..15`, weak/strong type, filter rejection, all-directions emission, and compile/cleanup emission reference counting.
-- [ ] **Step 2: Run focused tests** and confirm invalid signal/reference-count cases fail.
-- [ ] **Step 3: Implement** bounded signal parsing and router-side detector registration that remains enabled until the last detector is cleaned up.
+- [x] **Step 1: Write failing tests** for defaults, invalid NBT fallback, signal clamping `0..15`, weak/strong type, filter rejection, all-directions emission, and compile/cleanup emission reference counting.
+- [x] **Step 2: Run focused tests** and confirm invalid signal/reference-count cases fail.
+- [x] **Step 3: Implement** bounded signal parsing and router-side detector registration that remains enabled until the last detector is cleaned up.
 - [ ] **Step 4: Run focused/full tests**, update `HANDOFF.md`, commit, and push.
 
 ### Task 6: Extruder Mk1
