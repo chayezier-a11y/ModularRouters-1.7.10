@@ -13,7 +13,7 @@ All 23 compiled module implementations are in scope. Work is split into independ
 
 ## Compatibility Rules
 
-- Forge 1.7.10 `IInventory` and `ISidedInventory` replace modern item capabilities. Every transfer must honor exposed slots, `canInsertItem`, `canExtractItem`, inventory stack limits, item stack limits, and NBT equality.
+- Forge 1.7.10 `IInventory` and stable_12 `ISidedInventory.getSlotsForFace(int)` replace modern item capabilities. Every transfer must honor exposed slots, `canInsertItem`, `canExtractItem`, inventory stack limits, item stack limits, and NBT equality.
 - Transfers are transactional. Items removed from a source but rejected by a destination are restored without loss or duplication.
 - Explicit targets preserve dimension, position, face, and name. Bounded modules reject wrong-dimension, unloaded, or out-of-range targets without loading chunks. Sender Mk3 remains unlimited and may resolve an already-loaded target world.
 - Router filters, regulator counts, stack upgrades, range augments, termination modes, redstone modes, and energy costs remain centralized in `CompiledModule` and `TileEntityItemRouter`.

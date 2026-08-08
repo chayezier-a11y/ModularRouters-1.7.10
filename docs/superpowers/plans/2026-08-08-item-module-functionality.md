@@ -16,10 +16,10 @@
 - Create: `src/main/java/me/desht/modularrouters/logic/InventoryTransfer.java`
 - Create: `src/test/java/me/desht/modularrouters/logic/InventoryTransferTest.java`
 
-- [ ] **Step 1: Write failing tests** for sided slot exposure, insert/extract permission, stack/NBT matching, destination capacity, simulation, counting, and rollback when only part of a stack is accepted.
-- [ ] **Step 2: Run** `gradle test --tests me.desht.modularrouters.logic.InventoryTransferTest` and confirm failures are caused by the missing adapter.
-- [ ] **Step 3: Implement** slot enumeration for `ISidedInventory.getAccessibleSlotsFromSide()`, permission checks through `canInsertItem()`/`canExtractItem()`, and simulation-first transfer methods returning the committed item count.
-- [ ] **Step 4: Re-run focused and full tests** and require zero item loss/duplication in all partial-transfer cases.
+- [x] **Step 1: Write failing tests** for sided slot exposure, insert/extract permission, stack/NBT matching, destination capacity, simulation, counting, and rollback when only part of a stack is accepted.
+- [x] **Step 2: Run** `gradle test --tests me.desht.modularrouters.logic.InventoryTransferTest` and confirm failures are caused by the missing adapter.
+- [x] **Step 3: Implement** slot enumeration for stable_12 `ISidedInventory.getSlotsForFace(int)`, permission checks through `canInsertItem()`/`canExtractItem()`, and simulation-first transfer methods returning the committed item count.
+- [x] **Step 4: Re-run focused and full tests** and require zero item loss/duplication in all partial-transfer cases.
 
 ### Task 2: Puller Mk1 And Mk2
 
