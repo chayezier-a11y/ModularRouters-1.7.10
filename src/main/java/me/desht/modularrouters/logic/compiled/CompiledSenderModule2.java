@@ -51,6 +51,11 @@ public class CompiledSenderModule2 extends CompiledSenderModule1 {
 
     boolean isRangeLimited() { return true; }
 
+    @Override
+    protected int getBeamColor() {
+        return 0xFF8000;
+    }
+
     static boolean isTargetLocationValid(int routerDimension, int routerX, int routerY, int routerZ,
                                          int rangeSquared, ModuleTarget target, boolean loaded) {
         if (target == null || !loaded || target.getDimension() != routerDimension) return false;

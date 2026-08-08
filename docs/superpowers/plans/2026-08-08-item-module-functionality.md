@@ -41,9 +41,9 @@
 - Modify: `src/main/java/me/desht/modularrouters/logic/compiled/CompiledSenderModule3.java`
 - Create: `src/test/java/me/desht/modularrouters/logic/compiled/CompiledSenderModuleTest.java`
 
-- [ ] **Step 1: Write failing tests** for Mk1 line scanning and solid-face obstruction; Mk2 dimension/load/range validation; Mk3 unlimited loaded-world targeting; sided insertion; regulator caps; partial acceptance rollback; and yellow/orange/purple muffler-aware beams.
-- [ ] **Step 2: Run the focused test** and confirm failures against current first-inventory/direct insertion behavior.
-- [ ] **Step 3: Implement** the three target policies while sharing transactional insertion and regulation math.
+- [x] **Step 1: Write failing tests** for Mk1 line scanning and solid-face obstruction; Mk2 dimension/load/range validation; Mk3 unlimited loaded-world targeting; sided insertion; regulator caps; partial acceptance rollback; and yellow/orange/purple muffler-aware beams.
+- [x] **Step 2: Run the focused test** and confirm failures against current first-inventory/direct insertion behavior.
+- [x] **Step 3: Implement** the three target policies while sharing transactional insertion and regulation math.
 - [x] **Step 4: Run focused and complete tests**, then update local `HANDOFF.md`.
 
 ### Task 4: Distributor Push/Pull Strategies
@@ -52,10 +52,10 @@
 - Modify: `src/main/java/me/desht/modularrouters/logic/compiled/CompiledDistributorModule.java`
 - Create: `src/test/java/me/desht/modularrouters/logic/compiled/CompiledDistributorModuleTest.java`
 
-- [ ] **Step 1: Write failing tests** for push/pull mode and all four strategies, invalid target skipping, ordered round-robin progression, same-distance stability, sided permissions, filtering, regulation, and beam direction/color.
-- [ ] **Step 2: Run the focused test** and confirm strategy or transactional cases fail.
-- [ ] **Step 3: Implement** sorted target setup, valid-candidate selection, persistent compiled round-robin state, and shared transfer calls.
-- [ ] **Step 4: Run focused and complete tests**, then update local `HANDOFF.md`.
+- [x] **Step 1: Write failing tests** for push/pull mode and all four strategies, invalid target skipping, ordered round-robin progression, same-distance stability, sided permissions, filtering, regulation, and beam direction/color.
+- [x] **Step 2: Run the focused test** and confirm strategy or transactional cases fail.
+- [x] **Step 3: Implement** sorted target setup, valid-candidate selection, persistent compiled round-robin state, and shared transfer calls.
+- [x] **Step 4: Run focused and complete tests**, then update local `HANDOFF.md`.
 
 ### Task 5: Dropper And Flinger
 

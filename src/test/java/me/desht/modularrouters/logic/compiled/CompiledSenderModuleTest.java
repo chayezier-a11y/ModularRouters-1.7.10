@@ -65,6 +65,12 @@ public class CompiledSenderModuleTest {
         assertFalse(CompiledSenderModule2.isTargetLocationValid(
                 2, 10, 64, 10, 16, target, false));
         assertFalse(new CompiledSenderModule3(null, sender3Stack()).isRangeLimited());
+        assertEquals(0xFF8000, new CompiledSenderModule2(null, sender2Stack()).getBeamColor());
+    }
+
+    private static ItemStack sender2Stack() {
+        return new ItemStack(new me.desht.modularrouters.item.module.ItemModule(), 1,
+                me.desht.modularrouters.item.module.ItemModule.ModuleType.SENDER2.ordinal());
     }
 
     private static ItemStack sender3Stack() {
