@@ -7,7 +7,7 @@ import me.desht.modularrouters.logic.compiled.CompiledSenderModule1;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 
-public class SenderModule1 extends TargetedModule implements IRangedModule {
+public class SenderModule1 extends Module implements IRangedModule {
     @Override
     public CompiledModule compile(TileEntityItemRouter router, ItemStack stack) {
         return new CompiledSenderModule1(router, stack);

@@ -44,7 +44,7 @@
 - [ ] **Step 1: Write failing tests** for Mk1 line scanning and solid-face obstruction; Mk2 dimension/load/range validation; Mk3 unlimited loaded-world targeting; sided insertion; regulator caps; partial acceptance rollback; and yellow/orange/purple muffler-aware beams.
 - [ ] **Step 2: Run the focused test** and confirm failures against current first-inventory/direct insertion behavior.
 - [ ] **Step 3: Implement** the three target policies while sharing transactional insertion and regulation math.
-- [ ] **Step 4: Run focused and complete tests**, then update local `HANDOFF.md`.
+- [x] **Step 4: Run focused and complete tests**, then update local `HANDOFF.md`.
 
 ### Task 4: Distributor Push/Pull Strategies
 

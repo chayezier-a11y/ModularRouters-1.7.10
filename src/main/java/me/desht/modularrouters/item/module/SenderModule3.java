@@ -8,6 +8,8 @@ import net.minecraft.item.crafting.IRecipe;
 
 public class SenderModule3 extends TargetedModule {
     @Override
+    public boolean isDirectional() { return false; }
+    @Override
     public CompiledModule compile(TileEntityItemRouter router, ItemStack stack) {
         return new CompiledSenderModule3(router, stack);
     }

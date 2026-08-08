@@ -9,6 +9,8 @@ import net.minecraft.item.crafting.IRecipe;
 
 public class SenderModule2 extends TargetedModule implements IRangedModule {
     @Override
+    public boolean isDirectional() { return false; }
+    @Override
     public CompiledModule compile(TileEntityItemRouter router, ItemStack stack) {
         return new CompiledSenderModule2(router, stack);
     }

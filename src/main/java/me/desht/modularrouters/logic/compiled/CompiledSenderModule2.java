@@ -6,7 +6,10 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class CompiledSenderModule2 extends CompiledModule {
+import java.util.Collections;
+import java.util.List;
+
+public class CompiledSenderModule2 extends CompiledSenderModule1 {
     public CompiledSenderModule2(TileEntityItemRouter router, ItemStack stack) {
         super(router, stack);
     }
@@ -18,29 +21,42 @@ public class CompiledSenderModule2 extends CompiledModule {
         ItemStack toSend = router.peekBuffer(getItemsPerTick(router));
         if (toSend == null || getFilter().rejectItem(toSend)) return false;
 
-        // Try bound target first
-        ModuleTarget target = getExplicitTarget();
-        if (target != null) {
-            return tryInsertAt(router, target.getX(), target.getY(), target.getZ());
-        }
-
-        // Fall back to scanning forward
-        int range = getRange();
-        ForgeDirection facing = getAbsoluteDirection(router);
-        for (int d = 1; d <= range; d++) {
-            int x = router.xCoord + facing.offsetX * d;
-            int y = router.yCoord + facing.offsetY * d;
-            int z = router.zCoord + facing.offsetZ * d;
-            if (tryInsertAt(router, x, y, z)) return true;
-        }
-        return false;
+        return super.execute(router);
     }
 
-    private boolean tryInsertAt(TileEntityItemRouter router, int x, int y, int z) {
-        if (router.getWorldObj().getTileEntity(x, y, z) instanceof IInventory) {
-            IInventory inv = (IInventory) router.getWorldObj().getTileEntity(x, y, z);
-            return CompiledSenderModule1.insertIntoInventory(router, inv, getItemsPerTick(router));
+    @Override
+    List<ModuleTarget> setupTargets(TileEntityItemRouter router, ItemStack stack) {
+        return Collections.singletonList(me.desht.modularrouters.item.module.TargetedModule.getTarget(stack));
+    }
+
+    @Override
+    PositionedInventory findTargetInventory(TileEntityItemRouter router) {
+        ModuleTarget target = getEffectiveTarget(router);
+        if (target == null || router.getWorldObj() == null) {
+            return PositionedInventory.INVALID;
         }
-        return false;
+        boolean loaded = router.getWorldObj().blockExists(target.getX(), target.getY(), target.getZ());
+        boolean valid = loaded && target.getDimension() == router.getWorldObj().provider.dimensionId
+                && (!isRangeLimited() || isTargetLocationValid(router.getWorldObj().provider.dimensionId,
+                router.xCoord, router.yCoord, router.zCoord, getRangeSquared(), target, true));
+        if (!valid) {
+            return PositionedInventory.INVALID;
+        }
+        if (router.getWorldObj().getTileEntity(target.getX(), target.getY(), target.getZ()) instanceof IInventory) {
+            return new PositionedInventory((IInventory) router.getWorldObj().getTileEntity(
+                    target.getX(), target.getY(), target.getZ()), target);
+        }
+        return PositionedInventory.INVALID;
+    }
+
+    boolean isRangeLimited() { return true; }
+
+    static boolean isTargetLocationValid(int routerDimension, int routerX, int routerY, int routerZ,
+                                         int rangeSquared, ModuleTarget target, boolean loaded) {
+        if (target == null || !loaded || target.getDimension() != routerDimension) return false;
+        long dx = (long) target.getX() - routerX;
+        long dy = (long) target.getY() - routerY;
+        long dz = (long) target.getZ() - routerZ;
+        return dx * dx + dy * dy + dz * dz <= rangeSquared;
     }
 }
