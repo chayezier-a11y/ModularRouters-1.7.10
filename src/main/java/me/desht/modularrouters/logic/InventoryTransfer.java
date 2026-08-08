@@ -13,7 +13,7 @@ public final class InventoryTransfer {
         if (inventory == null || input == null || input.stackSize <= 0) return 0;
 
         int remaining = input.stackSize;
-        for (int slot : slots(inventory, side)) {
+        for (int slot : accessibleSlots(inventory, side)) {
             if (remaining <= 0) break;
             if (!canInsert(inventory, slot, input, side)) continue;
 
@@ -27,7 +27,7 @@ public final class InventoryTransfer {
                     inventory.setInventorySlotContents(slot, inserted);
                 }
                 remaining -= moved;
-            } else if (matches(existing, input, false, false)) {
+            } else if (stacksMatch(existing, input, false, false)) {
                 int moved = Math.min(Math.max(0, limit - existing.stackSize), remaining);
                 if (!simulate && moved > 0) existing.stackSize += moved;
                 remaining -= moved;
@@ -43,11 +43,11 @@ public final class InventoryTransfer {
 
         ItemStack result = null;
         int remaining = amount;
-        for (int slot : slots(inventory, side)) {
+        for (int slot : accessibleSlots(inventory, side)) {
             if (remaining <= 0) break;
             ItemStack existing = inventory.getStackInSlot(slot);
             ItemStack match = prototype == null ? result : prototype;
-            if (existing == null || match != null && !matches(existing, match, false, false)
+            if (existing == null || match != null && !stacksMatch(existing, match, false, false)
                     || !canExtract(inventory, slot, existing, side)) continue;
 
             int moved = Math.min(existing.stackSize, remaining);
@@ -88,23 +88,23 @@ public final class InventoryTransfer {
                             boolean ignoreMetadata, boolean ignoreNbt) {
         if (inventory == null || prototype == null) return 0;
         int count = 0;
-        for (int slot : slots(inventory, side)) {
+        for (int slot : accessibleSlots(inventory, side)) {
             ItemStack stack = inventory.getStackInSlot(slot);
-            if (stack != null && matches(stack, prototype, ignoreMetadata, ignoreNbt)) {
+            if (stack != null && stacksMatch(stack, prototype, ignoreMetadata, ignoreNbt)) {
                 count += stack.stackSize;
             }
         }
         return count;
     }
 
-    private static boolean matches(ItemStack first, ItemStack second,
-                                   boolean ignoreMetadata, boolean ignoreNbt) {
+    public static boolean stacksMatch(ItemStack first, ItemStack second,
+                                      boolean ignoreMetadata, boolean ignoreNbt) {
         return first.getItem() == second.getItem()
                 && (ignoreMetadata || first.getMetadata() == second.getMetadata())
                 && (ignoreNbt || ItemStack.areItemStackTagsEqual(first, second));
     }
 
-    private static int[] slots(IInventory inventory, ForgeDirection side) {
+    public static int[] accessibleSlots(IInventory inventory, ForgeDirection side) {
         if (inventory instanceof ISidedInventory && side != null && side != ForgeDirection.UNKNOWN) {
             return ((ISidedInventory) inventory).getSlotsForFace(side.ordinal());
         }
@@ -121,7 +121,7 @@ public final class InventoryTransfer {
                 || ((ISidedInventory) inventory).canInsertItem(slot, stack, side.ordinal());
     }
 
-    private static boolean canExtract(IInventory inventory, int slot, ItemStack stack, ForgeDirection side) {
+    public static boolean canExtract(IInventory inventory, int slot, ItemStack stack, ForgeDirection side) {
         if (slot < 0 || slot >= inventory.getSizeInventory()) return false;
         return !(inventory instanceof ISidedInventory) || side == null || side == ForgeDirection.UNKNOWN
                 || ((ISidedInventory) inventory).canExtractItem(slot, stack, side.ordinal());

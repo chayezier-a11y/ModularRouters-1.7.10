@@ -8,6 +8,7 @@ import me.desht.modularrouters.item.module.Module;
 import me.desht.modularrouters.item.module.Module.ModuleFlags;
 import me.desht.modularrouters.item.module.TargetedModule;
 import me.desht.modularrouters.logic.ModuleTarget;
+import me.desht.modularrouters.logic.InventoryTransfer;
 import me.desht.modularrouters.logic.RouterRedstoneBehaviour;
 import me.desht.modularrouters.logic.filter.Filter;
 import me.desht.modularrouters.util.ModuleHelper;
@@ -83,7 +84,7 @@ public abstract class CompiledModule {
         return targets;
     }
 
-    public boolean hasTarget() { return targets != null && !targets.isEmpty(); }
+    public boolean hasTarget() { return getTarget() != null; }
 
     /**
      * @deprecated Use getTarget() instead
@@ -198,31 +199,42 @@ public abstract class CompiledModule {
      * Try to transfer items from the given IInventory to the router.
      */
     protected ItemStack transferToRouter(net.minecraft.inventory.IInventory handler, TileEntityItemRouter router) {
-        // Using IInventory interface for 1.7.10 compatibility
-        int nToTake = getItemsPerTick(router);
+        return transferToRouter(handler, ForgeDirection.UNKNOWN, router);
+    }
 
-        for (int i = 0; i < handler.getSizeInventory(); i++) {
-            ItemStack stack = handler.getStackInSlot(i);
-            if (stack != null && !getFilter().rejectItem(stack)) {
-                int toPull = Math.min(stack.stackSize, nToTake);
-                ItemStack pulled = handler.decrStackSize(i, toPull);
-                if (pulled != null) {
-                    ItemStack remaining = router.insertBuffer(pulled);
-                    if (remaining != null) {
-                        // Return what couldn't fit
-                        ItemStack slotStack = handler.getStackInSlot(i);
-                        if (slotStack == null) {
-                            handler.setInventorySlotContents(i, remaining);
-                        } else if (slotStack.isItemEqual(remaining) && ItemStack.areItemStackTagsEqual(slotStack, remaining)) {
-                            slotStack.stackSize += remaining.stackSize;
-                        } else {
-                            handler.setInventorySlotContents(i, remaining);
-                        }
-                    }
-                    return pulled;
+    protected ItemStack transferToRouter(net.minecraft.inventory.IInventory handler,
+                                         ForgeDirection sourceSide, TileEntityItemRouter router) {
+        int nToTake = getItemsPerTick(router);
+        ItemStack wanted = router.peekBuffer(1);
+        if (wanted != null && getFilter().rejectItem(wanted)) return null;
+
+        if (wanted == null) {
+            for (int slot : InventoryTransfer.accessibleSlots(handler, sourceSide)) {
+                ItemStack candidate = handler.getStackInSlot(slot);
+                if (candidate != null && InventoryTransfer.canExtract(handler, slot, candidate, sourceSide)
+                        && !getFilter().rejectItem(candidate)
+                        && leavesRegulatedAmount(handler, sourceSide, candidate, nToTake)) {
+                    wanted = candidate.copy();
+                    wanted.stackSize = 1;
+                    break;
                 }
             }
+        } else if (!leavesRegulatedAmount(handler, sourceSide, wanted, nToTake)) {
+            return null;
         }
-        return null;
+
+        if (wanted == null) return null;
+        int moved = InventoryTransfer.transfer(handler, sourceSide, router.getBuffer(),
+                ForgeDirection.UNKNOWN, wanted, nToTake);
+        if (moved <= 0) return null;
+        wanted.stackSize = moved;
+        return wanted;
+    }
+
+    private boolean leavesRegulatedAmount(net.minecraft.inventory.IInventory handler,
+                                           ForgeDirection sourceSide, ItemStack stack, int amount) {
+        return getRegulationAmount() <= 0
+                || InventoryTransfer.count(handler, sourceSide, stack, false, false) - amount
+                >= getRegulationAmount();
     }
 }

@@ -28,10 +28,10 @@
 - Modify: `src/main/java/me/desht/modularrouters/logic/compiled/CompiledPullerModule2.java`
 - Create: `src/test/java/me/desht/modularrouters/logic/compiled/CompiledPullerModuleTest.java`
 
-- [ ] **Step 1: Write failing tests** for adjacent Mk1 extraction, bound Mk2 extraction, wrong dimension, unloaded target, squared range, sided extraction denial, filter rejection, partial buffer capacity, and blue reverse beam suppression at two mufflers.
-- [ ] **Step 2: Run the focused test** and confirm the current direct-slot loops fail sided and target validation cases.
-- [ ] **Step 3: Implement** target resolution without chunk loading and move accepted items through `InventoryTransfer` into the router buffer.
-- [ ] **Step 4: Run focused and complete tests**, then update local `HANDOFF.md`.
+- [x] **Step 1: Write failing tests** for adjacent Mk1 extraction, bound Mk2 extraction, wrong dimension, unloaded target, squared range, sided extraction denial, filter rejection, partial buffer capacity, and blue reverse beam suppression at two mufflers.
+- [x] **Step 2: Run the focused test** and confirm the current direct-slot loops fail sided and target validation cases.
+- [x] **Step 3: Implement** target resolution without chunk loading and move accepted items through `InventoryTransfer` into the router buffer.
+- [x] **Step 4: Run focused and complete tests**, then update local `HANDOFF.md`.
 
 ### Task 3: Sender Mk1, Mk2 And Mk3
 

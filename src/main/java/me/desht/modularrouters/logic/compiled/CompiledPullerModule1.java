@@ -1,9 +1,11 @@
 package me.desht.modularrouters.logic.compiled;
 
 import me.desht.modularrouters.block.tile.TileEntityItemRouter;
-import me.desht.modularrouters.item.module.Module;
+import me.desht.modularrouters.logic.ModuleTarget;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public class CompiledPullerModule1 extends CompiledModule {
@@ -14,37 +16,25 @@ public class CompiledPullerModule1 extends CompiledModule {
     @Override
     public boolean execute(TileEntityItemRouter router) {
         if (router.isBufferFull()) return false;
+        ModuleTarget target = getTarget();
+        if (!validateTarget(router, target)) return false;
 
-        ForgeDirection facing = getAbsoluteDirection(router);
-        int x = router.xCoord + facing.offsetX;
-        int y = router.yCoord + facing.offsetY;
-        int z = router.zCoord + facing.offsetZ;
+        World world = router.getWorldObj();
+        TileEntity tile = world.getTileEntity(target.getX(), target.getY(), target.getZ());
+        if (!(tile instanceof IInventory)) return false;
 
-        if (router.getWorldObj().getTileEntity(x, y, z) instanceof IInventory) {
-            IInventory inv = (IInventory) router.getWorldObj().getTileEntity(x, y, z);
-            for (int i = 0; i < inv.getSizeInventory(); i++) {
-                ItemStack stack = inv.getStackInSlot(i);
-                if (stack != null && !getFilter().rejectItem(stack)) {
-                    int toPull = Math.min(stack.stackSize, getItemsPerTick(router));
-                    ItemStack pulled = inv.decrStackSize(i, toPull);
-                    if (pulled != null) {
-                        ItemStack remaining = router.insertBuffer(pulled);
-                        if (remaining != null) {
-                            // Return what couldn't fit back to the source inventory
-                            ItemStack slotStack = inv.getStackInSlot(i);
-                            if (slotStack == null) {
-                                inv.setInventorySlotContents(i, remaining);
-                            } else if (slotStack.isItemEqual(remaining) && ItemStack.areItemStackTagsEqual(slotStack, remaining)) {
-                                slotStack.stackSize += remaining.stackSize;
-                            } else {
-                                inv.setInventorySlotContents(i, remaining);
-                            }
-                        }
-                        return true;
-                    }
-                }
-            }
-        }
-        return false;
+        ItemStack transferred = transferToRouter((IInventory) tile, target.getFacing(), router);
+        if (transferred == null) return false;
+        playParticles(router, target, transferred);
+        return true;
+    }
+
+    boolean validateTarget(TileEntityItemRouter router, ModuleTarget target) {
+        World world = router.getWorldObj();
+        return target != null && world != null && target.isSameWorld(world)
+                && world.blockExists(target.getX(), target.getY(), target.getZ());
+    }
+
+    void playParticles(TileEntityItemRouter router, ModuleTarget target, ItemStack stack) {
     }
 }

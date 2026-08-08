@@ -1,63 +1,54 @@
 package me.desht.modularrouters.logic.compiled;
 
 import me.desht.modularrouters.block.tile.TileEntityItemRouter;
+import me.desht.modularrouters.ModularRouters;
+import me.desht.modularrouters.config.Config;
+import me.desht.modularrouters.item.module.TargetedModule;
+import me.desht.modularrouters.item.upgrade.ItemUpgrade.UpgradeType;
 import me.desht.modularrouters.logic.ModuleTarget;
-import net.minecraft.inventory.IInventory;
+import me.desht.modularrouters.network.ParticleBeamMessage;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.common.util.ForgeDirection;
+import cpw.mods.fml.common.network.NetworkRegistry;
 
-public class CompiledPullerModule2 extends CompiledModule {
+import java.util.Collections;
+import java.util.List;
+
+public class CompiledPullerModule2 extends CompiledPullerModule1 {
     public CompiledPullerModule2(TileEntityItemRouter router, ItemStack stack) {
         super(router, stack);
     }
 
     @Override
-    public boolean execute(TileEntityItemRouter router) {
-        if (router.isBufferFull()) return false;
-
-        // Try bound target first
-        ModuleTarget target = getExplicitTarget();
-        if (target != null) {
-            return pullFrom(router, target.getX(), target.getY(), target.getZ());
-        }
-
-        // Fall back to scanning backward
-        int range = getRange();
-        ForgeDirection facing = getAbsoluteDirection(router);
-        for (int d = 1; d <= range; d++) {
-            int x = router.xCoord + facing.offsetX * d;
-            int y = router.yCoord + facing.offsetY * d;
-            int z = router.zCoord + facing.offsetZ * d;
-            if (pullFrom(router, x, y, z)) return true;
-        }
-        return false;
+    List<ModuleTarget> setupTargets(TileEntityItemRouter router, ItemStack stack) {
+        return Collections.singletonList(TargetedModule.getTarget(stack));
     }
 
-    private boolean pullFrom(TileEntityItemRouter router, int x, int y, int z) {
-        if (router.getWorldObj().getTileEntity(x, y, z) instanceof IInventory) {
-            IInventory inv = (IInventory) router.getWorldObj().getTileEntity(x, y, z);
-            for (int i = 0; i < inv.getSizeInventory(); i++) {
-                ItemStack stack = inv.getStackInSlot(i);
-                if (stack != null && !getFilter().rejectItem(stack)) {
-                    int toPull = Math.min(stack.stackSize, getItemsPerTick(router));
-                    ItemStack pulled = inv.decrStackSize(i, toPull);
-                    if (pulled != null) {
-                        ItemStack remaining = router.insertBuffer(pulled);
-                        if (remaining != null) {
-                            ItemStack slotStack = inv.getStackInSlot(i);
-                            if (slotStack == null) {
-                                inv.setInventorySlotContents(i, remaining);
-                            } else if (slotStack.isItemEqual(remaining) && ItemStack.areItemStackTagsEqual(slotStack, remaining)) {
-                                slotStack.stackSize += remaining.stackSize;
-                            } else {
-                                inv.setInventorySlotContents(i, remaining);
-                            }
-                        }
-                        return true;
-                    }
-                }
-            }
-        }
-        return false;
+    @Override
+    boolean validateTarget(TileEntityItemRouter router, ModuleTarget target) {
+        return target != null && router.getWorldObj() != null
+                && isTargetLocationValid(router.getWorldObj().provider.dimensionId,
+                router.xCoord, router.yCoord, router.zCoord, getRangeSquared(), target,
+                router.getWorldObj().blockExists(target.getX(), target.getY(), target.getZ()));
+    }
+
+    static boolean isTargetLocationValid(int routerDimension, int routerX, int routerY, int routerZ,
+                                         int rangeSquared, ModuleTarget target, boolean loaded) {
+        if (target == null || !loaded || target.getDimension() != routerDimension) return false;
+        long dx = (long) target.getX() - routerX;
+        long dy = (long) target.getY() - routerY;
+        long dz = (long) target.getZ() - routerZ;
+        return dx * dx + dy * dy + dz * dz <= rangeSquared;
+    }
+
+    @Override
+    void playParticles(TileEntityItemRouter router, ModuleTarget target, ItemStack stack) {
+        if (!Config.pullerParticles || router.getUpgradeCount(UpgradeType.MUFFLER) >= 2
+                || ModularRouters.network == null) return;
+        ModularRouters.network.sendToAllAround(
+                new ParticleBeamMessage(target.getX() + 0.5, target.getY() + 0.5, target.getZ() + 0.5,
+                        router.xCoord + 0.5, router.yCoord + 0.5, router.zCoord + 0.5,
+                        0x6080FF, 0.08f),
+                new NetworkRegistry.TargetPoint(router.getWorldObj().provider.dimensionId,
+                        router.xCoord + 0.5, router.yCoord + 0.5, router.zCoord + 0.5, 64));
     }
 }
