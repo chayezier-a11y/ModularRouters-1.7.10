@@ -75,10 +75,10 @@
 - Modify: `src/main/java/me/desht/modularrouters/logic/compiled/CompiledPlayerModule.java`
 - Modify: `src/test/java/me/desht/modularrouters/logic/compiled/CompiledPlayerModuleTest.java`
 
-- [ ] **Step 1: Add failing tests** for main/hotbar-excluded/armor/ender sections, extract/insert, online-player lookup, login/logout refresh, filter/regulator behavior, empty armor slot validation, and 1.7.10 OFFHAND no-op compatibility.
-- [ ] **Step 2: Run the focused test** and confirm current player inventory access fails the missing cases.
-- [ ] **Step 3: Implement** section slot views and event-managed player references using the shared transfer adapter.
-- [ ] **Step 4: Run focused and complete tests**, then update local `HANDOFF.md`.
+- [x] **Step 1: Add failing tests** for main/hotbar-excluded/armor/ender sections, extract/insert, online-player lookup, login/logout refresh, filter/regulator behavior, empty armor slot validation, and 1.7.10 OFFHAND no-op compatibility.
+- [x] **Step 2: Run the focused test** and confirm current player inventory access fails the missing cases.
+- [x] **Step 3: Implement** section slot views and server-wide per-execution player resolution using the shared transfer adapter.
+- [x] **Step 4: Run focused and complete tests**, then update local `HANDOFF.md`.
 
 ### Task 7: Batch Verification And Delivery
 
