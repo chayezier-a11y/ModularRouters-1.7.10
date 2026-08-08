@@ -64,10 +64,10 @@
 - Modify: `src/main/java/me/desht/modularrouters/logic/compiled/CompiledFlingerModule.java`
 - Create: `src/test/java/me/desht/modularrouters/logic/compiled/CompiledDropperFlingerModuleTest.java`
 
-- [ ] **Step 1: Write failing tests** for exact spawn position/stack size, failed-spawn rollback, pickup delay, regulator floor, cardinal/up/down velocity, and muffler-aware Flinger effects.
-- [ ] **Step 2: Run the focused test** and confirm at least spawn rollback and effect cases fail.
-- [ ] **Step 3: Implement** extract-after-success spawning and the 7.5.4 velocity/effect behavior using 1.7.10 entities and sounds.
-- [ ] **Step 4: Run focused and complete tests**, then update local `HANDOFF.md`.
+- [x] **Step 1: Write failing tests** for exact spawn position/stack size, failed-spawn rollback, pickup delay, regulator floor, cardinal/up/down velocity, and muffler-aware Flinger effects.
+- [x] **Step 2: Run the focused test** and confirm at least spawn rollback and effect cases fail.
+- [x] **Step 3: Implement** extract-after-success spawning and the 7.5.4 velocity/effect behavior using 1.7.10 entities and sounds.
+- [x] **Step 4: Run focused and complete tests**, then update local `HANDOFF.md`.
 
 ### Task 6: Player Module
 

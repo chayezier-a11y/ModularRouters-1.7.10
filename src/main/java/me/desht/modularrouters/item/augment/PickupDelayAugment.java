@@ -10,7 +10,7 @@ public class PickupDelayAugment extends ItemAugment {
 
     @Override
     public int getMaxAugments(Class<? extends me.desht.modularrouters.item.module.Module> moduleClass) {
-        return moduleClass == DropperModule.class ? 20 : 0;
+        return DropperModule.class.isAssignableFrom(moduleClass) ? 20 : 0;
     }
 
     @Override

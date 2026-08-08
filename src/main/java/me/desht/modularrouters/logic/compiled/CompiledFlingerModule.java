@@ -2,11 +2,15 @@ package me.desht.modularrouters.logic.compiled;
 
 import me.desht.modularrouters.block.tile.TileEntityItemRouter;
 import me.desht.modularrouters.config.Config;
-import me.desht.modularrouters.item.module.ItemModule;
+import me.desht.modularrouters.item.upgrade.ItemUpgrade.UpgradeType;
+import me.desht.modularrouters.item.module.Module;
+import me.desht.modularrouters.sound.ModSounds;
 import me.desht.modularrouters.util.ModuleHelper;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.world.World;
+import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.util.ForgeDirection;
 
 import javax.annotation.Nonnull;
@@ -35,25 +39,39 @@ public class CompiledFlingerModule extends CompiledDropperModule {
 
     @Override
     public boolean execute(@Nonnull TileEntityItemRouter router) {
-        return super.execute(router);
+        boolean fired = super.execute(router);
+        if (fired && Config.flingerEffects) playEffects(router);
+        return fired;
+    }
+
+    protected void playEffects(TileEntityItemRouter router) {
+        ForgeDirection facing = getAbsoluteDirection(router);
+        int x = router.xCoord + facing.offsetX;
+        int y = router.yCoord + facing.offsetY;
+        int z = router.zCoord + facing.offsetZ;
+        World world = router.getWorldObj();
+        if (shouldShowSmoke(router.getUpgradeCount(UpgradeType.MUFFLER)) && world instanceof WorldServer) {
+            ((WorldServer) world).func_147487_a("largesmoke", x + 0.5, y + 0.5, z + 0.5,
+                    effectParticleCount(speed), 0.0, 0.0, 0.0, 0.0);
+        }
+        ModSounds.playSound(world, x, y, z, "thud", 0.5f + speed, 1.0f);
     }
 
     @Override
     protected void setupItemVelocity(TileEntityItemRouter router, EntityItem item) {
-        ForgeDirection facing = getFacing() != null ? getFacing() : router.getAbsoluteFacing(getDirection());
         float basePitch = 0.0f;
         float baseYaw;
         switch (getDirection()) {
             case UP:
                 basePitch = 90.0f;
-                baseYaw = yawFromFacing(facing);
+                baseYaw = yawFromFacing(router.getAbsoluteFacing(Module.RelativeDirection.FRONT));
                 break;
             case DOWN:
                 basePitch = -90.0f;
-                baseYaw = yawFromFacing(facing);
+                baseYaw = yawFromFacing(router.getAbsoluteFacing(Module.RelativeDirection.FRONT));
                 break;
             default:
-                baseYaw = yawFromFacing(facing);
+                baseYaw = yawFromFacing(getAbsoluteDirection(router));
                 break;
         }
 
@@ -81,4 +99,12 @@ public class CompiledFlingerModule extends CompiledDropperModule {
     public float getYaw() { return yaw; }
     public float getPitch() { return pitch; }
     public float getSpeed() { return speed; }
+
+    static int effectParticleCount(float speed) {
+        return Math.round(speed * 5);
+    }
+
+    static boolean shouldShowSmoke(int mufflers) {
+        return mufflers < 2;
+    }
 }

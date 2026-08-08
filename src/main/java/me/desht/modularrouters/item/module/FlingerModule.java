@@ -12,7 +12,7 @@ import net.minecraft.item.crafting.IRecipe;
 
 import java.util.List;
 
-public class FlingerModule extends Module {
+public class FlingerModule extends DropperModule {
     public static final float MIN_SPEED = 0.0f;
     public static final float MAX_SPEED = 20.0f;
     public static final float MIN_PITCH = -90.0f;
